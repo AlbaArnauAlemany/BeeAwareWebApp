@@ -7,6 +7,7 @@ import jakarta.ws.rs.client.Client;
 import jakarta.ws.rs.client.ClientBuilder;
 import jakarta.ws.rs.client.WebTarget;
 import jakarta.ws.rs.core.GenericType;
+import jakarta.ws.rs.core.MediaType;
 import lombok.var;
 
 import java.util.Map;
@@ -38,10 +39,15 @@ public class Service {
     }
 
     public Map<Long, PollenLocationIndex> getPollenLocationIndex() {
-        return serviceTarget
-                .path("pollenlocationindex")
-                .request()
-                .get(new GenericType<Map<Long, PollenLocationIndex>>(){});
+        try {
+            return serviceTarget
+                    .path("pollenlocationindex")
+                    .request(MediaType.APPLICATION_JSON)
+                    .get(new GenericType<Map<Long, PollenLocationIndex>>(){});
+        } catch (Exception e) {
+            System.out.println("Sorry, we couldn't retrieve the pollen location index: " + e.getMessage());
+            return null;
+        }
     }
 
 }
