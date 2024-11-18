@@ -7,7 +7,7 @@ import jakarta.ws.rs.client.ClientBuilder;
 import jakarta.ws.rs.client.WebTarget;
 
 @ApplicationScoped
-public class BeeAwareService {
+public class Service {
     private static final String BASE_URL = "http://localhost:8080/BeeAwareService-1.0-SNAPSHOT/api";
     private WebTarget authenticationTarget;
     private WebTarget beezzerTarget;
