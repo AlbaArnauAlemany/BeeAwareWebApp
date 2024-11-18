@@ -1,10 +1,15 @@
 package ch.unil.doplab.beeaware;
 
+import ch.unil.doplab.beeaware.Domain.PollenLocationIndex;
 import jakarta.annotation.PostConstruct;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.ws.rs.client.Client;
 import jakarta.ws.rs.client.ClientBuilder;
 import jakarta.ws.rs.client.WebTarget;
+import jakarta.ws.rs.core.GenericType;
+import lombok.var;
+
+import java.util.Map;
 
 @ApplicationScoped
 public class Service {
@@ -32,11 +37,11 @@ public class Service {
                 .get(String.class);
     }
 
-    public void getPollenLocationIndex() {
-        String response = serviceTarget
+    public Map<Long, PollenLocationIndex> getPollenLocationIndex() {
+        return serviceTarget
                 .path("pollenlocationindex")
                 .request()
-                .get(String.class);
+                .get(new GenericType<Map<Long, PollenLocationIndex>>(){});
     }
 
 }
