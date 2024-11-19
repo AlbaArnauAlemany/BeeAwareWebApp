@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+    <h:outputStylesheet name="css/styles.css"/>
+    <title>
+        Login
+    </title>
+</h:head>
+<h:body>
+    <div align="center">
+        <p:panel style="width: 600px;">
+            <h:graphicImage width="180" value="/images/logo.jpg"/>
+            <br/>
+            <h1>Login</h1>
+        </p:panel>
+
+        <p:panel style="width: 600px;">
+            <h:form id="loginForm">
+                <table>
+                    <tr>
+                        <td style="text-align:right">
+                            <p:outputLabel value="Username"/>
+                        </td>
+                        <td style="text-align:left">
+                            <p:inputText id="username" value="#{loginBean.username}"
+                                         style="width: 300px" autocomplete="new-username"
+                                         required="true" requiredMessage="Username is required.">
+                                <p:ajax event="blur" update="username"/>
+                            </p:inputText>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:right">
+                            <p:outputLabel value="Password"/>
+                        </td>
+                        <td style="text-align:left">
+                            <p:password id="password" value="#{loginBean.password}"
+                                        style="width: 300px" autocomplete="new-password"
+                                        redisplay="true" toggleMask="true" feedback="false"
+                                        required="true" requiredMessage="Password is required.">
+                                <p:ajax event="blur" update="password"/>
+                            </p:password>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td style="text-align:center; height:50px">
+                            <p:commandButton id="loginButton" value="Login" action="#{loginBean.login}"
+                                             oncomplete="#{loginBean.reset()}" update="growl"/>
+                        </td>
+                    </tr>
+                </table>
+                <p:growl id="growl" showDetail="false"/>
+            </h:form>
+        </p:panel>
+    </div>
+    <div align="center">
+        <p:panel style="width: 600px;">
+            <div align="left">
+                <h:outputText value="Don't have an account? "/>
+                <p:link value="Sign Up Now" outcome="Register.xhtml"/>
+            </div>
+        </p:panel>
+    </div>
+</h:body>
+
+</html>

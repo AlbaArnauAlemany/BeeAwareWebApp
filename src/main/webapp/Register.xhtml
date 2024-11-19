@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+    <h:outputStylesheet name="css/styles.css"/>
+    <title>
+        Register
+    </title>
+</h:head>
+<h:body>
+    <div align="center">
+        <p:panel style="width: 600px;">
+            <h:graphicImage width="180" value="/images/logo.jpg"/>
+            <br/>
+            <h1>Register</h1>
+        </p:panel>
+        <p:panel style="width: 600px;">
+            <h:form id="registerForm">
+                <table>
+                    <tr>
+                        <td style="text-align:right">
+                            <p:outputLabel value="Role"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:right">
+                            <p:outputLabel value="Username"/>
+                        </td>
+                        <td style="text-align:left">
+                            <p:inputText id="username" value="#{registerBean.username}" style="width: 300px"
+                                         required="true" requiredMessage="Username is required.">
+                                <p:ajax event="blur" update="username"/>
+                            </p:inputText>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:right">
+                            <p:outputLabel value="Password"/>
+                        </td>
+                        <td style="text-align:left">
+                            <p:password id="password" value="#{registerBean.password}" style="width: 300px"
+                                        redisplay="true" toggleMask="true" feedback="false"
+                                        required="true" requiredMessage="Password is required.">
+                                <p:ajax event="blur" update="password"/>
+                            </p:password>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:right">
+                            <p:outputLabel value="Email"/>
+                        </td>
+                        <td style="text-align:left">
+
+                            <p:inputText id="email" value="#{registerBean.email}" style="width: 300px"
+                                         required="true" requiredMessage="Email is required."
+                                         validatorMessage="Incorrect email.">
+                                <p:ajax event="blur" update="email"/>
+                                <f:validateRegex pattern="^[^@]+@[^@]+\.[^@]+$"/>
+                            </p:inputText>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <p:outputLabel value="Language"/>
+                        </td>
+                        <td style="text-align:left">
+                            <p:selectOneMenu id="selectLanguage" value="#{registerBean.language}"
+                                             style="width: 200px" required="true"
+                                             requiredMessage="Your must choose a language.">
+                                <f:selectItem itemLabel="Select language..." itemValue=""/>
+                                <f:selectItems value="#{userData.languages}"/>
+                            </p:selectOneMenu>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <p:outputLabel value="Hourly Fee" rendered="#{registerBean.beezzerSelected}"/>
+                        </td>
+                        <td>
+                            <p:selectOneMenu id="selectHourlyFee" value="#{registerBean.beezzerHourlyFee}"
+                                             rendered="#{registerBean.beezzerSelected}" style="width: 200px"
+                                             required="#{registerBean.beezzerSelected}"
+                                             requiredMessage="Your must choose an hourly fee.">
+                                <f:selectItem itemLabel="Select amount..." itemValue=""/>
+                                <f:selectItems value="#{userData.hourlyFees}"/>
+                                <p:ajax update="selectHourlyFee" />
+                            </p:selectOneMenu>
+                        </td>
+                    </tr>
+                </table>
+                <div align="left">
+                    <p:outputLabel value="Biography" rendered="#{registerBean.beezzerSelected}"/><br/>
+                    <p:inputTextarea id="biography" value="#{registerBean.beezzerBiography}"
+                                     rendered="#{registerBean.beezzerSelected}" style="margin-top: 5px"
+                                     required="#{registerBean.beezzerSelected}"
+                                     requiredMessage="Biography is required."
+                                     rows="5" cols="58" maxlength="200"
+                                     counter="charCounter"
+                                     counterTemplate="{0} characters remaining.">
+                        <p:ajax update="biography" />
+                    </p:inputTextarea>
+                    <h:outputText id="charCounter" style="font-size: 10px;"/>
+                </div>
+
+                <br/> <p:spacer height="30"/>
+                <p:commandButton id="registerButton" value="Register"  action="#{registerBean.register}"
+                                 update="growl"/>
+                <br/><p:spacer height="10"/>
+                <p:growl id="growl" showDetail="false"/>
+            </h:form>
+        </p:panel>
+    </div>
+    <div align="center">
+        <p:panel style="width: 600px;">
+            <div align="left">
+                <h:outputText value="Already have an account? "/>
+                <p:link value="Login Now" outcome="Login.xhtml"/>
+            </div>
+        </p:panel>
+    </div>
+</h:body>
+
+</html>

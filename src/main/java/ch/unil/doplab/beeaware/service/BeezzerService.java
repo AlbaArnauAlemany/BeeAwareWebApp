@@ -1,42 +1,29 @@
-package ch.unil.doplab.beeaware;
+package ch.unil.doplab.beeaware.service;
 
 import ch.unil.doplab.beeaware.DTO.BeezzerDTO;
 import ch.unil.doplab.beeaware.Domain.Beezzer;
-import ch.unil.doplab.beeaware.DTO.AllergenDTO;
-import jakarta.annotation.PostConstruct;
-import jakarta.enterprise.context.ApplicationScoped;
-import jakarta.ws.rs.client.Client;
-import jakarta.ws.rs.client.ClientBuilder;
 import jakarta.ws.rs.client.Entity;
 import jakarta.ws.rs.client.WebTarget;
 import jakarta.ws.rs.core.GenericType;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 
-import java.util.LinkedList;
 import java.util.List;
 
-@ApplicationScoped
+@NoArgsConstructor
+@AllArgsConstructor
 public class BeezzerService {
-    private static final String BASE_URL = "http://localhost:8080/StudyBuddyService-1.0-SNAPSHOT/api";
     private WebTarget beezzerTarget;
 
-    @PostConstruct
-    public void init() {
-        System.out.println("BeezzerService" + this.hashCode());
-        Client client = ClientBuilder.newClient();
-        beezzerTarget = client.target(BASE_URL).path("beezzer");
-    }
 
     public List<BeezzerDTO> getAllBeezzers() {
-        try {
-            return beezzerTarget
-                    .request(MediaType.APPLICATION_JSON)
-                    .get(new GenericType<List<BeezzerDTO>>() {});
-        } catch (Exception e) {
-            System.out.println("Sorry, we couldn't retrieve the beezzers list: " + e.getMessage());
-            return null;
-        }
+        var beezzers = beezzerTarget
+                .request(MediaType.APPLICATION_JSON)
+                .get(new GenericType<List<BeezzerDTO>>() {
+                });
+        return beezzers;
     }
 
     public BeezzerDTO getBeezzer(Long id) {
