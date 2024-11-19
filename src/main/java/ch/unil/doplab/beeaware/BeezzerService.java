@@ -1,11 +1,16 @@
 package ch.unil.doplab.beeaware;
 
+import ch.unil.doplab.beeaware.Domain.Beezzer;
+import ch.unil.doplab.beeaware.DTO.AllergenDTO;
 import jakarta.annotation.PostConstruct;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.ws.rs.client.Client;
 import jakarta.ws.rs.client.ClientBuilder;
+import jakarta.ws.rs.client.Entity;
 import jakarta.ws.rs.client.WebTarget;
 import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
+import lombok.var;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -46,5 +51,16 @@ public class BeezzerService {
         }
     }
 
-
+    // TODO: Changer le set pour modifier uniquement les éléments updatés et prendre in json
+    public boolean setBeezzer(Beezzer beezzer) throws Exception{
+        var response = beezzerTarget
+                    .path("setBeezzer")
+                    .request(MediaType.APPLICATION_JSON)
+                    .put(Entity.entity(beezzer, MediaType.APPLICATION_JSON));
+        if (response.getStatus() == Response.Status.OK.getStatusCode()) {
+            return response.getStatus() == 200;
+        } else {
+            throw new Exception("Failed to set Beezzer. Status: " + response.getStatus());
+        }
+    }
 }

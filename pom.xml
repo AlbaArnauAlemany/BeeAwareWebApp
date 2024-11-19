@@ -31,6 +31,11 @@
       <artifactId>BeeAwareDomain</artifactId>
       <version>1.0-SNAPSHOT</version>
     </dependency>
+    <dependency>
+      <groupId>ch.unil.doplab.beeaware</groupId>
+      <artifactId>BeeAwareService</artifactId>
+      <version>1.0-SNAPSHOT</version>
+    </dependency>
   </dependencies>
   <build>
     <finalName>BeeAwareWebApp</finalName>
