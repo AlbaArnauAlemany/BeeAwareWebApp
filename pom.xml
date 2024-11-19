@@ -1,12 +1,12 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <groupId>org.example</groupId>
+  <groupId>ch.unil.doplab</groupId>
   <artifactId>BeeAwareWebApp</artifactId>
-  <packaging>war</packaging>
   <version>1.0-SNAPSHOT</version>
-  <name>BeeAwareWebApp Maven Webapp</name>
-  <url>http://maven.apache.org</url>
+  <name>BeeAwareWebApp</name>
+  <packaging>war</packaging>
+
   <dependencies>
     <dependency>
       <groupId>junit</groupId>
@@ -31,13 +31,20 @@
       <artifactId>BeeAwareDomain</artifactId>
       <version>1.0-SNAPSHOT</version>
     </dependency>
-    <dependency>
-      <groupId>ch.unil.doplab.beeaware</groupId>
-      <artifactId>BeeAwareService</artifactId>
-      <version>1.0-SNAPSHOT</version>
-    </dependency>
   </dependencies>
+
   <build>
     <finalName>BeeAwareWebApp</finalName>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.10.1</version>
+        <configuration>
+          <source>19</source>
+          <target>19</target>
+        </configuration>
+      </plugin>
+    </plugins>
   </build>
 </project>

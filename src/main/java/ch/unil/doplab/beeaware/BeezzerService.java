@@ -1,5 +1,6 @@
 package ch.unil.doplab.beeaware;
 
+import ch.unil.doplab.beeaware.DTO.BeezzerDTO;
 import ch.unil.doplab.beeaware.Domain.Beezzer;
 import ch.unil.doplab.beeaware.DTO.AllergenDTO;
 import jakarta.annotation.PostConstruct;
@@ -8,9 +9,9 @@ import jakarta.ws.rs.client.Client;
 import jakarta.ws.rs.client.ClientBuilder;
 import jakarta.ws.rs.client.Entity;
 import jakarta.ws.rs.client.WebTarget;
+import jakarta.ws.rs.core.GenericType;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
-import lombok.var;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -31,8 +32,7 @@ public class BeezzerService {
         try {
             return beezzerTarget
                     .request(MediaType.APPLICATION_JSON)
-                    .get(new LinkedList<BeezzerDTO>() {
-                    });
+                    .get(new GenericType<List<BeezzerDTO>>() {});
         } catch (Exception e) {
             System.out.println("Sorry, we couldn't retrieve the beezzers list: " + e.getMessage());
             return null;
