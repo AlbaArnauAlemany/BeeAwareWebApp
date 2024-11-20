@@ -32,6 +32,11 @@ public class AuthenticationFilter implements Filter {
 
         boolean hasValidToken = session != null && session.getAttribute("bearerToken") != null;
 
+        // TODO : A commenter pour la prod car on donne un token admin
+        if (session != null && session.getAttribute("bearerToken") == null) {
+            session.setAttribute("bearerToken", "u7u6m0f9rhvvtml0ibssscagoe");
+        }
+
         if (hasValidToken || loginRequest || registerRequest || indexRequest || resourceRequest) {
             chain.doFilter(request, response);
         } else {
