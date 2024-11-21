@@ -1,5 +1,6 @@
 package ch.unil.doplab.beeaware;
 
+import ch.unil.doplab.beeaware.service.CoordinateResource;
 import ch.unil.doplab.beeaware.service.ServiceRessource;
 import ch.unil.doplab.beeaware.service.authentification.AuthentificationService;
 import ch.unil.doplab.beeaware.service.authentification.BearerTokenFilter;
@@ -23,6 +24,7 @@ public class ApplicationServiceManagement {
     private AuthentificationService authentificationService;
     private BeezzerService beezzerService;
     private ServiceRessource serviceRessource;
+    private CoordinateResource coordinateResource;
     private Client client;
 
 
@@ -45,6 +47,7 @@ public class ApplicationServiceManagement {
         authentificationService = new AuthentificationService(client.target(BASE_URL).path("authentication"));
         beezzerService = new BeezzerService(client.target(BASE_URL).path("beezzers"));
         serviceRessource = new ServiceRessource(client.target(BASE_URL).path("service"));
+        coordinateResource = new CoordinateResource(client.target(BASE_URL).path("geo"));
     }
 
     public void authenticateSession(HttpSession session){

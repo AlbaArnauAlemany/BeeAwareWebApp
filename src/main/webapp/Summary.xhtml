@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+    <title>Summary</title>
+</h:head>
+<h:body>
+    <div align="center">
+    <p:panel style="width: 600px;">
+        <h:graphicImage width="180" value="/images/logo.jpg"/>
+        <br/>
+        <h1>Summary of Registration</h1>
+    </p:panel>
+    <p:panel style="width: 600px;">
+        <table>
+        <tr>
+            <td style="padding-right: 75px;text-align:left">
+                <p:outputLabel value="Username: " />
+            </td>
+            <td style="padding-left: 75px;text-align:left">
+                <p><strong>#{beezzerData.username}</strong></p>
+            </td>
+        </tr>
+        <tr>
+            <td style="padding-right: 75px;text-align:left">
+                <p:outputLabel value="Email: " />
+            </td>
+            <td style="padding-left: 75px;ext-align:left">
+                <p><strong>#{beezzerData.email}</strong></p>
+            </td>
+        </tr>
+        <tr>
+            <td style="padding-right: 75px;text-align:left">
+                <p:outputLabel value="NPA: " />
+            </td>
+            <td style="padding-left: 75px;text-align:left">
+                <p><strong>#{beezzerData.npa}</strong></p>
+            </td>
+        </tr>
+        <tr>
+            <td style="padding-right: 75px;text-align:left">
+                <p:outputLabel value="Country: " />
+            </td>
+            <td style="padding-left: 75px;text-align:left">
+                <p><strong>#{beezzerData.country}</strong></p>
+            </td>
+        </tr>
+        <tr>
+            <td style="padding-right: 75px;text-align:left">
+                <p:outputLabel value="Allergen(s): " />
+            </td>
+            <td style="padding-left: 75px;text-align:left">
+                <ul style="list-style: none; padding: 0; margin: 0;">
+                    <ui:repeat value="#{beezzerData.pollen}" var="pollen">
+                        <li><strong>#{pollen}</strong></li>
+                    </ui:repeat>
+                </ul>
+            </td>
+        </tr>
+    </table>
+        <br/>
+        <script src="https://maps.google.com/maps/api/js?key=AIzaSyBJ7rQThsAsSrY9zD6jYwpeVjYVOByqwEQ&amp;sensor=true" type="text/javascript"></script>
+        <div class="card">
+            <p:gmap center="#{beezzerData.location.coordinate.latitude}, #{beezzerData.location.coordinate.longitude}" zoom="15" type="HYBRID" style="width:400px;height:200px" />
+        </div>
+        <br/>
+        <h:form>
+            <p:commandButton id="backButton" value="Back" style="margin-left: 30px;" action="Register.xhtml"/>
+            <p:commandButton id="registerButton" value="Save" style="margin-left: 30px;"  action="Login.xhtml"/>
+        </h:form>
+    </p:panel>
+        <div align="center">
+            <p:panel style="width: 600px;">
+                <div align="left">
+                    <h:outputText value="Already have an account? "/>
+                    <p:link value="Login Now" outcome="Login.xhtml"/>
+                </div>
+            </p:panel>
+        </div>
+    </div>
+</h:body>
+</html>
