@@ -1,4 +1,4 @@
-package ch.unil.doplab.beeaware.service;
+package ch.unil.doplab.beeaware.ui;
 
 import ch.unil.doplab.beeaware.ApplicationServiceManagement;
 import ch.unil.doplab.beeaware.Domain.PollenLocationIndex;
