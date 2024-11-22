@@ -29,7 +29,7 @@ public class PickListView {
 
     }
 
-    // TODO: Dans les différents fichier .xhtml, faire des styles plutot que de la redondonce...
+    // TODO: Dans les différents fichier .xhtml, faire des styles plutot que de la redondance...
 
     public DualListModel<String> getPollens() {
         return pollens;

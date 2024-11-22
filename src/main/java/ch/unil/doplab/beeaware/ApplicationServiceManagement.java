@@ -1,10 +1,8 @@
 package ch.unil.doplab.beeaware;
 
-import ch.unil.doplab.beeaware.service.CoordinateResource;
-import ch.unil.doplab.beeaware.service.ServiceRessource;
+import ch.unil.doplab.beeaware.service.*;
 import ch.unil.doplab.beeaware.service.authentification.AuthentificationService;
 import ch.unil.doplab.beeaware.service.authentification.BearerTokenFilter;
-import ch.unil.doplab.beeaware.service.BeezzerService;
 import jakarta.annotation.PostConstruct;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.servlet.http.HttpSession;
@@ -23,8 +21,10 @@ public class ApplicationServiceManagement {
     private final String BASE_URL = "http://localhost:8080/BeeAwareService-1.0-SNAPSHOT/api";
     private AuthentificationService authentificationService;
     private BeezzerService beezzerService;
-    private ServiceRessource serviceRessource;
-    private CoordinateResource coordinateResource;
+    private ServiceResource serviceResource;
+    private CoordinateService coordinateService;
+    private IndexPollenForBeezzerService indexPollenForBeezzerService;
+    private SymptomService symptomService;
     private Client client;
 
 
@@ -46,8 +46,10 @@ public class ApplicationServiceManagement {
         client = ClientBuilder.newClient();
         authentificationService = new AuthentificationService(client.target(BASE_URL).path("authentication"));
         beezzerService = new BeezzerService(client.target(BASE_URL).path("beezzers"));
-        serviceRessource = new ServiceRessource(client.target(BASE_URL).path("service"));
-        coordinateResource = new CoordinateResource(client.target(BASE_URL).path("geo"));
+        serviceResource = new ServiceResource(client.target(BASE_URL).path("service"));
+        coordinateService = new CoordinateService(client.target(BASE_URL).path("geo"));
+        indexPollenForBeezzerService = new IndexPollenForBeezzerService(client.target(BASE_URL).path("forecast"));
+        symptomService = new SymptomService(client.target(BASE_URL).path("symptom"));
     }
 
     public void authenticateSession(HttpSession session){

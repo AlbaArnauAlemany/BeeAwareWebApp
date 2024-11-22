@@ -26,6 +26,7 @@ public class BeezzerData {
     private String password;
     private int npa;
     private String country;
+    private String cityName;
     private Location location;
 
     @Inject
@@ -56,6 +57,7 @@ public class BeezzerData {
         npa = coordinateBean.getNpa();
         country = coordinateBean.getCountry();
         location = coordinateBean.getCoordinate(coordinateBean.getNpa(), coordinateBean.getCountry());
+        cityName = coordinateBean.getCityName();
         return "Summary.xhtml?faces-redirect=true";
     }
 }

@@ -20,6 +20,6 @@ public class ServiceBean {
     ApplicationServiceManagement theService;
 
     public void reset() {
-        theService.getServiceRessource().resetService();
+        theService.getServiceResource().resetService();
     }
 }

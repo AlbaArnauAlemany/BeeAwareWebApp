@@ -1,23 +1,17 @@
 package ch.unil.doplab.beeaware.service;
 
-import ch.unil.doplab.beeaware.ApplicationServiceManagement;
 import ch.unil.doplab.beeaware.Domain.PollenLocationIndex;
-import jakarta.annotation.PostConstruct;
-import jakarta.enterprise.context.ApplicationScoped;
-import jakarta.inject.Inject;
-import jakarta.inject.Named;
 import jakarta.ws.rs.client.WebTarget;
 import jakarta.ws.rs.core.GenericType;
 import jakarta.ws.rs.core.MediaType;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.util.Map;
 
 @NoArgsConstructor
 @AllArgsConstructor
-public class ServiceRessource {
+public class ServiceResource {
     private WebTarget serviceTarget;
 
     public void resetService() {

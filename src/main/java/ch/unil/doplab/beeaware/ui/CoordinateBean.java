@@ -21,6 +21,7 @@ public class CoordinateBean {
 
     private Integer npa;
     private String country = "CH";
+    private String cityName; // Résultat retourné par l'API
     private Coordinate locality; // Résultat retourné par l'API
 
     @PostConstruct
@@ -31,7 +32,7 @@ public class CoordinateBean {
     public Location getCoordinate(int npa, String country) {
         System.out.println(npa);
         System.out.println(country);
-        locality = theService.getCoordinateResource().getCoordinates(npa, country);
+        locality = theService.getCoordinateService().getCoordinates(npa, country);
         return new Location(npa, country, locality);
     }
 }

@@ -58,3 +58,34 @@ body {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Optional: subtle shadow */
     text-align: center; /* Center-align text inside panel */
 }
+
+/* ----------------------------------- */
+
+
+.pollen-card {
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 10px;
+  margin: 10px;
+  text-align: center;
+  display: inline-block;
+  width: 150px;
+  height: 150px;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+}
+.gauge {
+    height: 20px;
+    background: #f0f0f0;
+    border-radius: 10px;
+    margin-top: 5px;
+}
+.low { background-color: #a0d3a0; }
+.medium { background-color: #ffd700; }
+.high { background-color: #ff7f50; }
+.very-high { background-color: #ff4500; }
+.no-pollen-message {
+    font-size: 18px;
+    color: green;
+    text-align: center;
+    margin: 20px;
+}

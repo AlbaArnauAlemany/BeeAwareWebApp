@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+    <h:outputStylesheet name="css/styles.css"/>
+    <title>Dashboard</title>
+</h:head>
+<h:body>
+    <div style="display: flex; flex-direction: column; align-items: center;">
+        <p:panel style="width: 600px; text-align: center;">
+            <h:graphicImage width="180" value="/images/logo.jpg"/>
+            <br/>
+            <h1>Dashboard</h1>
+        </p:panel>
+
+        <div style="display: flex; justify-content: flex-end; width: 100%;">
+            <p:panel style="width: 600px;">
+                <p>
+                    <i class="pi-map-marker" style="color: #000000; margin-right: 5px;"></i>
+                    <strong>#{beezzerData.cityName}, #{beezzerData.country}</strong>
+                </p>
+            </p:panel>
+        </div>
+
+        <div style="display: flex; flex-wrap: wrap; justify-content: center; width: 100%;">
+            <ui:repeat value="#{indexPollenForBeezzerBean.pollenInfo}" var="pollenInfo">
+                <div class="pollen-card">
+                    <h3>#{pollenInfo.displayName}</h3>
+                    <div class="gauge #{indexPollenForBeezzerBean.getGaugeClass(pollenInfo.index)}" style="width: min(#{pollenInfo.index}px, 100%);"></div>
+                    <p>Index: #{pollenInfo.index}</p>
+                </div>
+            </ui:repeat>
+
+            <h:panelGroup rendered="#{empty indexPollenForBeezzerBean.pollenInfo}">
+                <h:outputText value="Lucky day! There is no pollen charge for the pollens you are allergic to today! Enjoy the outdoors and take a deep breath of fresh air!"
+                              styleClass="no-pollen-message"/>
+            </h:panelGroup>
+        </div>
+
+        <p:commandButton icon="pi pi-pen-to-square" value="Register Symptoms" type="button" style="color: #000000" onclick="PF('symptoms').show()" styleClass="mr-2" />
+
+        <div align="center">
+            <p:sidebar widgetVar="symptoms" position="bottom">
+                <h3>Register Symptoms</h3>
+                <h:form>
+                    <p:growl id="growl" showDetail="true"/>
+                    <h4 class="mt-0">How are you feeling today?</h4>
+                    <h:panelGrid columns="1" style="margin-bottom: 10px">
+                        <p:inputText id="txt" value="#{symptomBean.reactionValue}"/>
+                        <p:slider for="txt" range="false"/>
+                    </h:panelGrid>
+                </h:form>
+                check with antihistamine
+                <p:commandButton id="registerSymptoms" icon="pi pi-check" style="color: #31a2d5" value="Register Symptoms" action="#{symptomBean.registerSymptoms}" update="growl"/>
+
+            </p:sidebar>
+        </div>
+    </div>
+</h:body>
+</html>
