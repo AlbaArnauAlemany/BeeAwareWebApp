@@ -1,6 +1,7 @@
 package ch.unil.doplab.beeaware.ui;
 
 import ch.unil.doplab.beeaware.ApplicationServiceManagement;
+import ch.unil.doplab.beeaware.Domain.Token;
 import jakarta.annotation.PostConstruct;
 import jakarta.enterprise.context.SessionScoped;
 import jakarta.faces.application.FacesMessage;
@@ -21,6 +22,9 @@ public class LoginBean implements Serializable {
 
     @Inject
     ApplicationServiceManagement theService;
+
+    @Inject
+    BeezzerData beezzerData;
 
 
     @PostConstruct
@@ -46,11 +50,17 @@ public class LoginBean implements Serializable {
 
     public String login() {
         try {
-            String token = theService.getAuthentificationService().authenticate(username, password); // Récupération du token
+            Token token = theService.getAuthentificationService().authenticate(username, password); // Récupération du token
             var session = getSession(true);
             if (token != null) {
                 assert session != null;
-                session.setAttribute("bearerToken", token); // Stockage du token
+                session.setAttribute("bearerToken", token.getKey()); // Stockage du token
+                session.setAttribute("key", token.getKey()); // Stockage du token
+                session.setAttribute("beezzerId", token.getBeezzerId()); // Stockage du token
+                session.setAttribute("role", token.getRole()); // Stockage du token
+                session.setAttribute("expiration", token.getExpiration()); // Stockage du token
+                beezzerData.setId(token.getBeezzerId());
+                beezzerData.setToken(token);
                 PrimeFaces.current().executeScript("console.log('Token received: " + token + "');");
                 return "GetAllBeezzers";
             }

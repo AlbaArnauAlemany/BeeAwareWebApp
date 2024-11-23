@@ -4,6 +4,7 @@ import ch.unil.doplab.beeaware.ApplicationServiceManagement;
 import ch.unil.doplab.beeaware.DTO.BeezzerDTO;
 import ch.unil.doplab.beeaware.Domain.Coordinate;
 import ch.unil.doplab.beeaware.Domain.Location;
+import ch.unil.doplab.beeaware.Domain.Token;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
@@ -21,6 +22,8 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class BeezzerData {
+
+    private Long id;
     private String email;
     private String username;
     private String password;
@@ -28,6 +31,7 @@ public class BeezzerData {
     private String country;
     private String cityName;
     private Location location;
+    private Token token;
 
     @Inject
     ApplicationServiceManagement theService;

@@ -14,6 +14,8 @@
 
    <h:body>
       <h:messages/>
+      current beezzer : #{beezzerData.id}
+      current beezzer : #{beezzerData.token}
       <h:form>
          <h:commandButton actionListener="#{beezzerData.loadBeezzers()}" value="GET ALL"/>
          <h:dataTable value="#{beezzerData.beezzerDTOs}" border="1" rendered="#{beezzerData.loadBeezzers().size() != 0}" var="beezzer">

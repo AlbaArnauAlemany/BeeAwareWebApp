@@ -4,9 +4,13 @@ import ch.unil.doplab.beeaware.ApplicationServiceManagement;
 import ch.unil.doplab.beeaware.DTO.SymptomsDTO;
 import ch.unil.doplab.beeaware.Domain.Reaction;
 import ch.unil.doplab.beeaware.Domain.Symptom;
+import ch.unil.doplab.beeaware.Domain.Token;
+import ch.unil.doplab.beeaware.service.BeezzerService;
 import ch.unil.doplab.beeaware.service.SymptomService;
+import jakarta.annotation.PostConstruct;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
+import jakarta.servlet.http.HttpSession;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -21,14 +25,19 @@ public class SymptomBean {
     @Inject
     ApplicationServiceManagement theService;
 
+    @Inject
+    BeezzerData beezzerData;
+
+
     private String date;
     private Long beezzerId;
     private int reactionValue;
     private boolean antihistamine;
     private Symptom symptomInfo;
 
+    @PostConstruct
     public void init() {
-        // TODO: beezzerId = getLoggedInBeezzerId();
+        beezzerId = beezzerData.getId();
     }
 
     public void reset() {

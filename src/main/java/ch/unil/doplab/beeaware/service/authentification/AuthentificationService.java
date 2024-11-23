@@ -1,5 +1,6 @@
 package ch.unil.doplab.beeaware.service.authentification;
 
+import ch.unil.doplab.beeaware.Domain.Token;
 import jakarta.ws.rs.client.Client;
 import jakarta.ws.rs.client.ClientBuilder;
 import jakarta.ws.rs.client.Entity;
@@ -23,7 +24,7 @@ public class AuthentificationService {
 
     private WebTarget serviceTarget;
 
-    public String authenticate(String username, String password) {
+    public Token authenticate(String username, String password) {
         try {
             String encodedUsername = URLEncoder.encode(username, StandardCharsets.UTF_8.toString());
             String encodedPassword = URLEncoder.encode(password, StandardCharsets.UTF_8.toString());
@@ -40,7 +41,7 @@ public class AuthentificationService {
                     .post(Entity.entity(formBody, MediaType.APPLICATION_FORM_URLENCODED)); // Envoi des données encodées
 
             if (response.getStatus() == 200) {
-                return response.readEntity(String.class); // Lire la réponse comme une chaîne
+                return response.readEntity(Token.class); // Lire la réponse comme une chaîne
             } else {
                 throw new RuntimeException("Authentication failed: " + response.getStatusInfo().getReasonPhrase());
             }
