@@ -1,8 +1,7 @@
 package ch.unil.doplab.beeaware.ui;
 
 import ch.unil.doplab.beeaware.ApplicationServiceManagement;
-import ch.unil.doplab.beeaware.DTO.PollenInfoDTO;
-import jakarta.annotation.PostConstruct;
+import ch.unil.doplab.beeaware.Domain.DTO.PollenInfoDTO;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 import lombok.Getter;

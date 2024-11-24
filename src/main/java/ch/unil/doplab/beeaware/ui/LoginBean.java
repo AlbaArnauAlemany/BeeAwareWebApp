@@ -1,7 +1,9 @@
 package ch.unil.doplab.beeaware.ui;
 
 import ch.unil.doplab.beeaware.ApplicationServiceManagement;
+import ch.unil.doplab.beeaware.Domain.DTO.BeezzerDTO;
 import ch.unil.doplab.beeaware.Domain.Token;
+import ch.unil.doplab.beeaware.service.authentification.SessionUtils;
 import jakarta.annotation.PostConstruct;
 import jakarta.enterprise.context.SessionScoped;
 import jakarta.faces.application.FacesMessage;
@@ -18,9 +20,6 @@ import java.io.Serializable;
 public class LoginBean implements Serializable {
 
     @Inject
-    private HttpSession session;
-
-    @Inject
     ApplicationServiceManagement theService;
 
     @Inject
@@ -29,6 +28,7 @@ public class LoginBean implements Serializable {
 
     @PostConstruct
     public void init() {
+        HttpSession session = SessionUtils.getSession(true); // Utilisation de la session centralisée
         if (theService != null) {
             theService.authenticateSession(session);
         } else {
@@ -50,19 +50,24 @@ public class LoginBean implements Serializable {
 
     public String login() {
         try {
-            Token token = theService.getAuthentificationService().authenticate(username, password); // Récupération du token
-            var session = getSession(true);
+            Token token = theService.getAuthentificationService().authenticate(username, password);
             if (token != null) {
-                assert session != null;
-                session.setAttribute("bearerToken", token.getKey()); // Stockage du token
-                session.setAttribute("key", token.getKey()); // Stockage du token
-                session.setAttribute("beezzerId", token.getBeezzerId()); // Stockage du token
-                session.setAttribute("role", token.getRole()); // Stockage du token
-                session.setAttribute("expiration", token.getExpiration()); // Stockage du token
+                HttpSession session = SessionUtils.getSession(false); // Utilisation de la session globale
+                session.setAttribute("bearerToken", token.getKey());
+                session.setAttribute("key", token.getKey());
+                session.setAttribute("beezzerId", token.getBeezzerId());
+                session.setAttribute("role", token.getRole());
+                session.setAttribute("expiration", token.getExpiration());
+                System.out.println("Session ID in LoginBean: " + session.getId());
+                theService.authenticateSession(session);
                 beezzerData.setId(token.getBeezzerId());
                 beezzerData.setToken(token);
-                PrimeFaces.current().executeScript("console.log('Token received: " + token + "');");
-                return "GetAllBeezzers";
+                System.out.println("Token received: " + token + "");
+                System.out.println("Token set in session: " + session.getAttribute("bearerToken"));
+                BeezzerDTO beezzerDTO = theService.getBeezzerService().getBeezzer(token.getBeezzerId());
+                System.out.println("Beezzer received: " + beezzerDTO.toString() + "");
+                beezzerData.setNewBeezzerData(beezzerDTO);
+                return "HomePage.xhtml?faces-redirect=true";
             }
             FacesContext.getCurrentInstance().addMessage(null,
                     new FacesMessage(FacesMessage.SEVERITY_ERROR,
@@ -86,9 +91,13 @@ public class LoginBean implements Serializable {
 
 
     public String logout() {
-        invalidateSession();
-        reset();
-        return "Login?faces-redirect=true";
+        System.out.println("Logout current beezzer : " + beezzerData.getId());
+        if(theService.getAuthentificationService().logout(beezzerData.getId())) {
+            reset();
+            invalidateSession();
+            return "Login?faces-redirect=true";
+        }
+            return "";
     }
 
 

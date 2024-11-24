@@ -1,8 +1,8 @@
 package ch.unil.doplab.beeaware.service;
 
-import ch.unil.doplab.beeaware.DTO.AllergenDTO;
-import ch.unil.doplab.beeaware.DTO.BeezzerDTO;
-import ch.unil.doplab.beeaware.DTO.LocationDTO;
+import ch.unil.doplab.beeaware.Domain.DTO.AllergenDTO;
+import ch.unil.doplab.beeaware.Domain.DTO.BeezzerDTO;
+import ch.unil.doplab.beeaware.Domain.DTO.LocationDTO;
 import ch.unil.doplab.beeaware.Domain.Beezzer;
 import jakarta.ws.rs.client.Entity;
 import jakarta.ws.rs.client.WebTarget;
@@ -29,12 +29,13 @@ public class BeezzerService {
 
     public BeezzerDTO getBeezzer(Long id) {
         try {
+            System.out.println("Sending request to get Beezzer with ID: " + id);
             return beezzerTarget
                     .path(id.toString())
                     .request(MediaType.APPLICATION_JSON)
                     .get(BeezzerDTO.class);
         } catch (Exception e) {
-            System.out.println("Sorry, we couldn't retrieve the beezzer: " + e.getMessage());
+            System.out.println("Error retrieving Beezzer: " + e.getMessage());
             return null;
         }
     }
@@ -52,11 +53,11 @@ public class BeezzerService {
         }
     }
 
-    public BeezzerDTO addBeezzer(String json) {
+    public BeezzerDTO addBeezzer(Beezzer beezzer) {
         try {
             return beezzerTarget
                     .request(MediaType.APPLICATION_JSON)
-                    .post(Entity.entity(json, MediaType.APPLICATION_JSON), BeezzerDTO.class);
+                    .post(Entity.entity(beezzer, MediaType.APPLICATION_JSON), BeezzerDTO.class);
         } catch (Exception e) {
             System.out.println("Sorry, we couldn't create the beezzer: " + e.getMessage());
             return null;

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="templates/BeezzerTemplate.xhtml">
+
+    <ui:define name="title">Beezzer | Profile</ui:define>
+
+    <ui:define name="section-title">Welcome #{beezzerData.username}</ui:define>
+
+    <ui:define name="section-content">
+        <p>
+            Pollenic Allergy Monitoring Platform
+            Allergies affect a large portion of the population, and their symptoms can be exacerbated by various environmental factors, including weather conditions. The platform's goal is to provide users with a channel for information on high-risk periods based on daily pollen forecasts to help them anticipate potential symptoms. Additionally, it will allow users to log their perceived symptoms daily on a subjective scale so they can compare these symptoms with the pollen load index. Users can also record days when an antihistamine was taken to observe its impact on symptoms. All this information will be grouped in a graph, providing users a simple and effective visualization tool to review their personal history, helping them act accordingly or discuss with a healthcare professional. The platform will rely on a Google Pollen API for pollen load forecasts to retrieve pollen indices based on the user's specified location.
+        </p>
+    </ui:define>
+
+</ui:composition>
+
+</html>

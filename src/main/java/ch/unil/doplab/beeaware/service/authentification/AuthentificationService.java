@@ -5,7 +5,6 @@ import jakarta.ws.rs.client.Client;
 import jakarta.ws.rs.client.ClientBuilder;
 import jakarta.ws.rs.client.Entity;
 import jakarta.ws.rs.client.WebTarget;
-import jakarta.ws.rs.core.Form;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import lombok.AllArgsConstructor;
@@ -23,6 +22,21 @@ import java.nio.charset.StandardCharsets;
 public class AuthentificationService {
 
     private WebTarget serviceTarget;
+
+    public boolean logout(Long id) {
+        try {
+            WebTarget targetWithPathParam = serviceTarget.path(String.valueOf(id));
+
+            System.out.println("Logout URL: " + targetWithPathParam.getUri());
+
+            return targetWithPathParam
+                    .request(MediaType.APPLICATION_JSON)
+                    .post(Entity.json(null), Boolean.class);
+        } catch (Exception e) {
+            System.out.println("Sorry, we couldn't logout" + e.getMessage());
+            return false;
+        }
+    }
 
     public Token authenticate(String username, String password) {
         try {

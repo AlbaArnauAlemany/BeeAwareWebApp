@@ -18,7 +18,7 @@ public class RegisterBean implements Serializable {
 
     // Méthode d'enregistrement
     public String register() {
-        // Logique d'enregistrement ici (base de données, validations, etc.)
+        //TODO: Logique d'enregistrement ici (base de données, validations, etc.)
         System.out.println("User registered: " + username + ", " + email);
 
         // Redirige vers la page de résumé
