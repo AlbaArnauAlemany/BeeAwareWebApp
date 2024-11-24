@@ -45,6 +45,8 @@ public class ApplicationServiceManagement {
     private WebTarget excelTarget;
 
     private PickListView pickListView;
+    @Inject
+    private Utilis utilis;
 
 
 
@@ -61,6 +63,7 @@ public class ApplicationServiceManagement {
         indexPollenForBeezzerService = new IndexPollenForBeezzerService(client.target(BASE_URL).path("forecast"));
         symptomService = new SymptomService(client.target(BASE_URL).path("symptom"));
         pickListView = new PickListView();
+        System.out.println("Utilis API Key length: " + utilis.getApikey().length());
     }
 
     public void authenticateSession(HttpSession session) {

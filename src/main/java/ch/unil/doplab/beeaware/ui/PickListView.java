@@ -39,13 +39,16 @@ public class PickListView {
         List<String> pollensSource = new ArrayList<>();
         List<String> pollensTarget = new ArrayList<>();
         if(beezzerData != null && beezzerData.getAllergensListString() != null && beezzerData.getAllergensListString().size() > 0){
+            System.out.println("With data");
             setPickListView(beezzerData.getAllergensListString());
         } else {
+            System.out.println("Without data");
             for (Pollen pollen : Pollen.getPredefinedPollens()) {
                 pollensSource.add(pollen.getPollenNameEN());
             }
 
             pollens = new DualListModel<>(pollensSource, pollensTarget);
+            System.out.println("End initializing");
         }
     }
 

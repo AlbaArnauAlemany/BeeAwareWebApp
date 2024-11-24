@@ -1,27 +1,21 @@
 package ch.unil.doplab.beeaware;
 
 
+import jakarta.annotation.PostConstruct;
 import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Named;
+import lombok.Getter;
+import java.util.ResourceBundle;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Properties;
-
+@Getter
+@ApplicationScoped
+@Named
 public class Utilis {
-    private static final Properties properties = new Properties();
+    private String apikey;
 
-    static {
-        try (InputStream input = Utilis.class.getClassLoader().getResourceAsStream("application.properties")) {
-            if (input == null) {
-                throw new IllegalArgumentException("Fichier de configuration introuvable");
-            }
-            properties.load(input);
-        } catch (IOException ex) {
-            throw new RuntimeException("Erreur lors du chargement des propriétés", ex);
-        }
+    @PostConstruct
+    public void init() {
+        apikey = ResourceBundle.getBundle("application").getString("API_KEY");
+        System.out.println("apikey : " + apikey);
     }
-    public static String getProperty(String key) {
-        return properties.getProperty(key);
-    }
-
 }

@@ -107,7 +107,7 @@ public class BeezzerData extends Beezzer{
     public String saveBeezzer() {
         try {
             Map<Long, Pollen> pollens = new HashMap<>();
-            for (String allergen: theService.getPickListView().getPollensTarget()) {
+            for (String allergen: pollen) {
                 Pollen pol = getPollenByName(allergen);
                 pollens.put(pol.getId(), pol);
             }
@@ -127,7 +127,8 @@ public class BeezzerData extends Beezzer{
                 return "Register.xhtml?faces-redirect=true";
             }
         } catch (Exception e) {
-            // Gestion des exceptions
+            System.out.println(e.getMessage());
+            System.out.println(e.getStackTrace());
             FacesContext.getCurrentInstance().addMessage(null,
                     new FacesMessage(FacesMessage.SEVERITY_ERROR, "An error occurred: " + e.getMessage(), null));
             return "Register.xhtml?faces-redirect=true";
@@ -160,10 +161,11 @@ public class BeezzerData extends Beezzer{
     }
 
     public String goToSummary() {
-        pollen = theService.getPickListView().getPollens().getTarget();
+        pollen = pickListView.getPollens().getTarget();
         npa = coordinateBean.getNpa();
         country = coordinateBean.getCountry();
         cityName = coordinateBean.getCityName();
+        System.out.println("PERFECT!!");
         return "Summary.xhtml?faces-redirect=true";
     }
 }
