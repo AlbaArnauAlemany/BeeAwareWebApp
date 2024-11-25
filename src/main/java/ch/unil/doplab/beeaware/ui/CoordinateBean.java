@@ -20,7 +20,7 @@ public class CoordinateBean {
     ApplicationServiceManagement theService;
 
     private Integer npa;
-    private String country = "ES";
+    private String country = "CH";
     private String cityName; // Résultat retourné par l'API
     private Coordinate locality; // Résultat retourné par l'API
 
