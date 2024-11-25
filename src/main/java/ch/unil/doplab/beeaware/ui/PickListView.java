@@ -2,26 +2,28 @@ package ch.unil.doplab.beeaware.ui;
 
 import ch.unil.doplab.beeaware.Domain.Pollen;
 import jakarta.annotation.PostConstruct;
-import jakarta.enterprise.context.RequestScoped;
+import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
-import jakarta.inject.Named;
+import jakarta.inject.Singleton;
 import lombok.Getter;
 import lombok.Setter;
 import org.primefaces.model.DualListModel;
 
 import java.util.ArrayList;
 import java.util.List;
-@Named
-@RequestScoped
 @Setter
 @Getter
+@ApplicationScoped
 public class PickListView {
 
-    private DualListModel<String> pollens;
-    List<String> pollensSource;
-    List<String> pollensTarget;
-    @Inject
-    BeezzerData beezzerData;
+    List<String> pollensSource = new ArrayList<>();
+    List<String> pollensTarget = new ArrayList<>();
+    private DualListModel<String> pollens = new DualListModel<>(pollensSource, pollensTarget);
+
+    public void logState() {
+        System.out.println("Source: " + pollens.getSource());
+        System.out.println("Target: " + pollens.getTarget());
+    }
 
     @Override
     public String toString() {
@@ -36,31 +38,38 @@ public class PickListView {
     @PostConstruct
     public void init() {
         System.out.println("Initializing pickedList");
-        List<String> pollensSource = new ArrayList<>();
-        List<String> pollensTarget = new ArrayList<>();
-        if(beezzerData != null && beezzerData.getAllergensListString() != null && beezzerData.getAllergensListString().size() > 0){
-            System.out.println("With data");
-            setPickListView(beezzerData.getAllergensListString());
-        } else {
-            System.out.println("Without data");
+//        List<String> pollensSource = new ArrayList<>();
+//        List<String> pollensTarget = new ArrayList<>();
+//        if(beezzerData != null && beezzerData.getAllergensListString() != null && beezzerData.getAllergensListString().size() > 0){
+//            System.out.println("With data");
+//            setPickListView(beezzerData.getAllergensListString());
+//        } else {
+//            System.out.println("Without data");
             for (Pollen pollen : Pollen.getPredefinedPollens()) {
                 pollensSource.add(pollen.getPollenNameEN());
             }
 
-            pollens = new DualListModel<>(pollensSource, pollensTarget);
+            pollens.setSource(pollensSource);
+            pollens.setTarget(pollensTarget);
             System.out.println("End initializing");
-        }
+//        }
     }
 
 
     public void setPickListView(List<String> pollensString){
-        pollensTarget = pollensString;
-        pollensSource = new ArrayList<>();
-        for (Pollen pollen:Pollen.getPredefinedPollens()) {
-            pollensSource.add(pollen.getPollenNameEN());
+        try {
+            pollensTarget.clear();
+            pollensTarget.addAll(pollensString);
+            pollensSource.clear();
+            for (Pollen pollen : Pollen.getPredefinedPollens()) {
+                pollensSource.add(pollen.getPollenNameEN());
+            }
+            pollensSource.removeAll(pollensTarget);
+            pollens.setSource(pollensSource);
+            pollens.setTarget(pollensTarget);
+            System.out.println(this);
+        } catch (Exception e){
+            System.out.println(e);
         }
-        pollensSource.removeAll(pollensTarget);
-        pollens = new DualListModel<>(pollensSource, pollensTarget);
-        System.out.println(this);
     }
 }

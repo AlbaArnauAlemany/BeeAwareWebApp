@@ -1,9 +1,12 @@
 package ch.unil.doplab.beeaware.service;
 
+import ch.unil.doplab.beeaware.Domain.Coordinate;
 import ch.unil.doplab.beeaware.Domain.DTO.AllergenDTO;
 import ch.unil.doplab.beeaware.Domain.DTO.BeezzerDTO;
 import ch.unil.doplab.beeaware.Domain.DTO.LocationDTO;
 import ch.unil.doplab.beeaware.Domain.Beezzer;
+import ch.unil.doplab.beeaware.Domain.DTO.PollenInfoDTO;
+import ch.unil.doplab.beeaware.Domain.Pollen;
 import jakarta.ws.rs.client.Entity;
 import jakarta.ws.rs.client.WebTarget;
 import jakarta.ws.rs.core.GenericType;
@@ -41,15 +44,38 @@ public class BeezzerService {
     }
 
     // TODO: Changer le set pour modifier uniquement les éléments updatés et prendre un json
-    public boolean setBeezzer(Beezzer beezzer) throws Exception {
+    public boolean setBeezzer(Long id, Beezzer beezzer) throws Exception {
         var response = beezzerTarget
-                    .path("setBeezzer")
+                    .path("set")
+                    .path(id.toString())
                     .request(MediaType.APPLICATION_JSON)
                     .put(Entity.entity(beezzer, MediaType.APPLICATION_JSON));
         if (response.getStatus() == Response.Status.OK.getStatusCode()) {
             return response.getStatus() == 200;
         } else {
             throw new Exception("Sorry, we couldn't set the beezzer. Status: " + response.getStatus());
+        }
+    }
+
+    public boolean checkBeezzerUsername(String beezzerUsername){
+        try {
+
+            WebTarget targetWithParams = beezzerTarget
+                    .path("username")
+                    .queryParam("username", beezzerUsername);
+
+            Response response = targetWithParams
+                    .request(MediaType.APPLICATION_JSON)
+                    .post(Entity.json(null));
+
+            if (response.getStatus() == 200) {
+                return response.readEntity(Boolean.class);
+            } else {
+                return false;
+            }
+        } catch (Exception e) {
+            System.out.println("Sorry, we couldn't add the allergen: " + e.getMessage());
+            return false;
         }
     }
 
@@ -88,15 +114,15 @@ public class BeezzerService {
         }
     }
 
-    public boolean setBeezzerLocation(Long id, LocationDTO location) throws Exception {
+    public boolean setBeezzerLocation(Long id, LocationDTO location) {
         var response = beezzerTarget
-                    .path("locations").path(id.toString())
+                    .path("location").path(id.toString())
                     .request(MediaType.APPLICATION_JSON)
                     .put(Entity.entity(location, MediaType.APPLICATION_JSON));
         if (response.getStatus() == Response.Status.OK.getStatusCode()) {
             return response.getStatus() == 200;
         } else {
-                throw new Exception("Sorry, we couldn't set the beezzer's location. Status: " + response.getStatus());
+            return false;
         }
     }
 
@@ -132,6 +158,40 @@ public class BeezzerService {
                     .post(Entity.entity(pollen, MediaType.APPLICATION_JSON), Boolean.class);
         } catch (Exception e) {
             System.out.println("Sorry, we couldn't add the allergen set: " + e.getMessage());
+            return false;
+        }
+    }
+
+    public boolean setAllergenSet(Long id, List<Pollen> pollen) {
+        try {
+            return beezzerTarget
+                    .path(id.toString()).path("setallergensset")
+                    .request(MediaType.APPLICATION_JSON)
+                    .post(Entity.entity(pollen, MediaType.APPLICATION_JSON), Boolean.class);
+        } catch (Exception e) {
+            System.out.println("Sorry, we couldn't add the allergen set: " + e.getMessage());
+            return false;
+        }
+    }
+
+    public boolean changePassword(Long id, String password) {
+        try {
+            WebTarget targetWithParams = beezzerTarget
+                    .path(id.toString())
+                    .path("password")
+                    .queryParam("password", password);
+
+            Response response = targetWithParams
+                    .request(MediaType.APPLICATION_JSON)
+                    .post(Entity.json(null));
+
+            if (response.getStatus() == 200) {
+                return response.readEntity(Boolean.class);
+            } else {
+                return false;
+            }
+        } catch (Exception e) {
+            System.out.println("Sorry, we couldn't change the password: " + e.getMessage());
             return false;
         }
     }

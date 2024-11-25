@@ -65,7 +65,7 @@
                         <td style="text-align:left; padding-left: 10px">
                             <p:growl id="msg" showDetail="true" escape="false"/>
                             <div class="card">
-                                <p:pickList id="instantPickList" value="#{pickListView.pollens}" var="pollens"
+                                <p:pickList id="instantPickList" value="#{beezzerData.pickListView.pollens}" var="pollens"
                                             itemLabel="#{pollens}" itemValue="#{pollens}" transferOnCheckboxClick="true"
                                             showCheckbox="true" showSourceControls="false" showTargetControls="false"/>
                             </div>
@@ -73,10 +73,10 @@
                     </tr>
                     <tr>
                         <td style="text-align:left">
-                            <p:outputLabel value="NPA (Code Postal)"/>
+                            <p:outputLabel value="NPA"/>
                         </td>
                         <td style="text-align:left; padding-left: 10px">
-                            <p:inputText id="npa" value="#{coordinateBean.npa}" style="width: 459px;" required="true"
+                            <p:inputText id="npa" value="#{beezzerData.npa}" style="width: 459px;" required="true"
                                          requiredMessage="NPA is required."/>
                         </td>
                     </tr>
@@ -85,8 +85,11 @@
                             <p:outputLabel value="Country"/>
                         </td>
                         <td style="text-align:left; padding-left: 10px">
-                            <p:inputText id="country" value="#{coordinateBean.country}" style="width: 459px;" required="true"
-                                         requiredMessage="NPA is required."/>
+                            <p:inputText id="country" value="#{beezzerData.country}" style="width: 459px;" required="true"
+                                         requiredMessage="Country is required."
+                                         validatorMessage="Country must contain exactly 2 letters. Like Switzerland is CH">
+                            <f:validateRegex pattern="^[A-Za-z]{2}$" />
+                            </p:inputText>
                         </td>
                     </tr>
                 </table>

@@ -20,19 +20,26 @@ public class CoordinateBean {
     ApplicationServiceManagement theService;
 
     private Integer npa;
-    private String country = "ES";
-    private String cityName; // Résultat retourné par l'API
-    private Coordinate locality; // Résultat retourné par l'API
+    private String country;
+    private String cityName;
+    private Coordinate coordinate;
 
     @PostConstruct
     public void init() {
-        locality = new Coordinate(46.5197, 6.6328); // Lausanne, Suisse
+        coordinate = new Coordinate(46.5197, 6.6328); // Lausanne, Suisse
     }
 
     public Location getCoordinate(int npa, String country) {
-        System.out.println(npa);
-        System.out.println(country);
-        locality = theService.getCoordinateService().getCoordinates(npa, country);
-        return new Location(npa, country, locality);
+        try {
+            Coordinate tempLocation = theService.getCoordinateService().getCoordinates(npa, country);
+            if (tempLocation != null) {
+                coordinate = tempLocation;
+                return new Location(npa, country, tempLocation);
+            } else {
+                return null;
+            }
+        } catch (Exception e){
+            return null;
+        }
     }
 }

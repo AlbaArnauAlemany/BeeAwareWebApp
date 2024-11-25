@@ -1,18 +1,12 @@
 package ch.unil.doplab.beeaware.ui;
 
-import ch.unil.doplab.beeaware.Domain.Role;
-import ch.unil.doplab.beeaware.Domain.Token;
-import ch.unil.doplab.beeaware.service.authentification.SessionUtils;
-import jakarta.inject.Inject;
 import jakarta.servlet.*;
 import jakarta.servlet.annotation.WebFilter;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import org.primefaces.PrimeFaces;
 
 import java.io.IOException;
-import java.util.Date;
 
 @WebFilter(filterName = "AuthenticationFilter", urlPatterns = {"*.xhtml"})
 public class AuthenticationFilter implements Filter {
@@ -39,8 +33,6 @@ public class AuthenticationFilter implements Filter {
         boolean resourceRequest = requestURI.contains("javax.faces.resource");
 
         boolean hasValidToken = session.getAttribute("bearerToken") != null;
-
-        System.out.println("Session ID (AuthenticationFilter): " + session.getId());
 
         if (hasValidToken || loginRequest || registerRequest || summaryRequest || resourceRequest) {
             chain.doFilter(request, response);

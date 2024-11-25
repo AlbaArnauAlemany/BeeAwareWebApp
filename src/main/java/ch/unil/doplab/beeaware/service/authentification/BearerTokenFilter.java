@@ -27,18 +27,15 @@ public class BearerTokenFilter implements ClientRequestFilter {
             return;
         }
 
-        System.out.println("Session ID in BearerTokenFilter: " + session.getId());
-        System.out.println("Session attributes:");
-        session.getAttributeNames().asIterator().forEachRemaining(attr -> {
-            System.out.println(attr + " : " + session.getAttribute(attr));
-        });
-
         String bearerToken = (String) session.getAttribute("bearerToken");
-        System.out.println("BearerTokenFilter invoked for URL: " + requestContext.getUri());
+
+        System.out.println("Outgoing Request - Method: " + requestContext.getMethod() +
+                ", URI: " + requestContext.getUri() +
+                ", Headers: " + requestContext.getHeaders() +
+                (requestContext.hasEntity() ? ", Body: " + requestContext.getEntity() : ""));
 
         if (bearerToken != null) {
             requestContext.getHeaders().add("Authorization", "Bearer " + bearerToken);
-            System.out.println("Bearer Token sent: " + bearerToken);
         } else {
             System.out.println("No Bearer Token found in session.");
         }

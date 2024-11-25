@@ -4,6 +4,7 @@ import ch.unil.doplab.beeaware.ApplicationServiceManagement;
 import ch.unil.doplab.beeaware.Domain.*;
 import ch.unil.doplab.beeaware.Domain.DTO.AllergenDTO;
 import ch.unil.doplab.beeaware.Domain.DTO.BeezzerDTO;
+import ch.unil.doplab.beeaware.Domain.DTO.LocationDTO;
 import ch.unil.doplab.beeaware.Domain.DTO.PollenDTO;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.faces.application.FacesMessage;
@@ -34,17 +35,22 @@ public class BeezzerData extends Beezzer{
 
     private Long id;
     private String email;
+    private String newEmail;
     private String username;
+    private String newUsername;
+    private String newPassword;
     private String password;
     private int npa;
     private String country;
+    private int newNpa;
+    private String newCountry;
+    private Location location;
+    private Location newLocation;
     private String cityName;
     private Token token;
     private List<String> allergensListString;
 
     private String dialogMessage;
-
-    private String newPassword;
 
     @Inject
     ApplicationServiceManagement theService;
@@ -59,6 +65,8 @@ public class BeezzerData extends Beezzer{
 
     private List<String> pollen;
     private boolean changed;
+    private boolean changedPassword;
+    private boolean changedLocationValid;
 
 
     public void loadBeezzers() {
@@ -69,39 +77,107 @@ public class BeezzerData extends Beezzer{
         return !changed;
     }
 
+
     public void setNewBeezzerData(BeezzerDTO beezzerDTO){
         System.out.println(beezzerDTO);
         this.id = beezzerDTO.getId();
         this.username = beezzerDTO.getUsername();
+        this.newUsername = beezzerDTO.getUsername();
         this.email = beezzerDTO.getEmail();
+        this.newEmail = beezzerDTO.getEmail();
+        this.location = new Location(beezzerDTO.getLocation().getNPA(), beezzerDTO.getLocation().getCountry(), beezzerDTO.getLocation().getCoordinate());
+        this.newLocation = new Location(beezzerDTO.getLocation().getNPA(), beezzerDTO.getLocation().getCountry(), beezzerDTO.getLocation().getCoordinate());
         this.npa = beezzerDTO.getLocation().getNPA();
         this.country = beezzerDTO.getLocation().getCountry();
+        this.newNpa = beezzerDTO.getLocation().getNPA();
+        this.newCountry = beezzerDTO.getLocation().getCountry();
         this.allergensListString = new ArrayList<>();
         for (PollenDTO pollenAllergen : beezzerDTO.getAllergens().getPollenList()){
             this.allergensListString.add(pollenAllergen.getPollenNameEN());
         }
         pickListView.setPickListView(this.allergensListString);
 
-        System.out.println("Beezzer Setted");
+        System.out.println("Beezzer Setted" + this);
     }
+    //TODO: Ne pas oublier de gérer le retours de nos calls API
     public void updateBeezzer() {
         try {
             if (this.id != null) {
-                theService.getBeezzerService().setBeezzer(this);
-                setNewBeezzerData(theService.getBeezzerService().getBeezzer(this.getId()));
+                Beezzer beezzerElement = new Beezzer(newUsername, newEmail);
+                System.out.println(theService.getBeezzerService().setBeezzer(this.id, beezzerElement));
+                setNewBeezzerData(theService.getBeezzerService().getBeezzer(this.id));
                 changed = false;
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Success", "Profile updated successfully."));
             }
         } catch (Exception e) {
             dialogMessage = e.getMessage();
             PrimeFaces.current().executeScript("PF('updateErrorDialog').show();");
+            e.printStackTrace();
+
+        }
+    }
+    public void resetBeezzer() {
+        this.newNpa = this.npa;
+        this.newCountry = this.country;
+    }
+
+    public void saveLocation() {
+        System.out.println(newLocation);
+        if(theService.getBeezzerService().setBeezzerLocation(id, new LocationDTO(newLocation))) {
+            this.changedLocationValid = false;
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Success", "Location updated successfully."));
+        } else {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Unable to set the new Location."));
         }
     }
 
+    public void saveAllergen() {
+        System.out.println(pickListView);
+        this.allergensListString = pickListView.getPollens().getTarget();
+        List<Pollen> pollens = new ArrayList<>();
+        for (String pollenAllergenElement : this.allergensListString){
+            pollens.add(getPollenByName(pollenAllergenElement));
+        }
+
+        if(theService.getBeezzerService().setAllergenSet(id, pollens)) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Success", "Allergen updated successfully."));
+        } else {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Error", "Allergen updated successfully."));
+        }
+    }
+
+    public void checkLocation() {
+        System.out.println("newLocation : " + newLocation);
+        Location newElementLocation = coordinateBean.getCoordinate(newLocation.getNPA(), newLocation.getCountry());
+        if (newElementLocation != null) {
+            newLocation = newElementLocation;
+            changedLocationValid = true;
+            FacesContext.getCurrentInstance().addMessage(null,
+                    new FacesMessage(FacesMessage.SEVERITY_INFO, "Success", "Location verified successfully."));
+        } else {
+            changedLocationValid = false;
+            FacesContext.getCurrentInstance().addMessage(null,
+                    new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Unable to fetch location. Check NPA and Country."));
+        }
+        System.out.println("newLocation : " + newLocation);
+    }
+    public void resetLocation(){
+        this.newLocation = this.location;
+        this.newNpa = this.npa;
+        this.newCountry = this.country;
+        this.changedLocationValid = false;
+    }
+
+
+    public void resetAllergenList(){
+        pickListView.setPickListView(this.allergensListString);
+    }
+
+
     public void checkIfChanged() {
-        boolean emailChanged = !email.equals(this.getEmail());
-        boolean usernameChanged = !username.equals(this.getUsername());
-        boolean passwordChanged = !password.equals(this.getPassword());
-        changed = emailChanged || usernameChanged || passwordChanged;
+        boolean emailChanged = !email.equals(newEmail);
+        boolean usernameChanged = !username.equals(newUsername);
+        changed = emailChanged || usernameChanged;
     }
 
     public String saveBeezzer() {
@@ -116,12 +192,10 @@ public class BeezzerData extends Beezzer{
             beezzer.setAllergens(pollens);
             BeezzerDTO createdBeezzer = theService.getBeezzerService().addBeezzer(beezzer);
             if (createdBeezzer != null) {
-                // Succès : ajouter un message de confirmation et rediriger vers Login
                 FacesContext.getCurrentInstance().addMessage(null,
                         new FacesMessage(FacesMessage.SEVERITY_INFO, "Registration Successful", null));
                 return "Login.xhtml?faces-redirect=true";
             } else {
-                // Échec : ajouter un message d'erreur
                 FacesContext.getCurrentInstance().addMessage(null,
                         new FacesMessage(FacesMessage.SEVERITY_ERROR, "Registration Failed", null));
                 return "Register.xhtml?faces-redirect=true";
@@ -135,37 +209,42 @@ public class BeezzerData extends Beezzer{
         }
     }
 
-    public void reset() {
-        this.username = null;
-        this.password = null;
-        this.email = null;
-        this.pollen = null;
-    }
-
     public void resetPasswordChange() {
         this.newPassword = null;
+        this.changedPassword = false;
     }
 
-    public void savePasswordChange() throws Exception {
-        //TODO: Changer la fonction, c'est celle de studdybuddy actuellemnt...
-//        if (Utils.checkPassword(currentPassword, theStudent.getPassword())) {
-//            this.setPassword(Utils.hashPassword(newPassword));
-//            updateStudent();
-//            dialogMessage = "Your password was successfully changed.";
-//            PrimeFaces.current().executeScript("PF('passwordChangeDialog').show();");
-//            resetPasswordChange();
-//        } else {
-//            dialogMessage = "Your password could not be changed because the current password you entered is incorrect.";
-//            PrimeFaces.current().executeScript("PF('passwordChangeDialog').show();");
-//        }
+    public void savePasswordChange(){
+        if (PasswordUtilis.checkPasswordConstraints(newPassword)) {
+            if(theService.getBeezzerService().changePassword(this.id, newPassword)) {
+                this.setPassword(newPassword);
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Success", "Password updated successfully."));
+                resetPasswordChange();
+            }
+        } else {
+            dialogMessage = "Your password could not be changed because the current password you entered is incorrect.";
+            PrimeFaces.current().executeScript("PF('passwordChangeDialog').show();");
+        }
     }
 
     public String goToSummary() {
         pollen = pickListView.getPollens().getTarget();
-        npa = coordinateBean.getNpa();
-        country = coordinateBean.getCountry();
-        cityName = coordinateBean.getCityName();
-        System.out.println("PERFECT!!");
-        return "Summary.xhtml?faces-redirect=true";
+        System.out.println("npa : " + npa);
+        System.out.println("country : " + country);
+        if(theService.getBeezzerService().checkBeezzerUsername(username)){
+            FacesContext.getCurrentInstance().addMessage(null,
+                    new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Username already exists"));
+            return null;
+        }
+        Location locationTemp = coordinateBean.getCoordinate(npa, country);
+        if(locationTemp != null){
+            location = coordinateBean.getCoordinate(npa, country);
+            return "Summary.xhtml?faces-redirect=true";
+        } else {
+            FacesContext.getCurrentInstance().addMessage(null,
+                        new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Location information is incomplete or false. Please verify the NPA and country."));
+                return null;
+        }
     }
+
 }

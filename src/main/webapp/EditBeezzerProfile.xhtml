@@ -14,11 +14,16 @@
     <ui:define name="section-title">#{beezzerData.username} | Profile</ui:define>
 
     <ui:define name="section-content">
+        <p:growl id="growl" showDetail="true" life="3000" />
         <p:outputLabel for="@next" value="Basic Information"/>
         <h:form id="basicInfo">
             <p:outputLabel for="@next" value="Email" style="font-size: 12px;"/><br/>
-            <p:inputText id="email" value="#{beezzerData.email}" required="true"
-                         requiredMessage="Email is required." validatorMessage="Incorrect email.">
+            <p:inputText id="email"
+                         value="#{beezzerData.newEmail}"
+                         required="true"
+                         requiredMessage="Email is required."
+                         validatorMessage="Incorrect email."
+                         style="width: 459px;">
                 <p:ajax event="blur" update="basicInfo" listener="#{beezzerData.checkIfChanged()}"/>
                 <p:ajax event="keyup" update="basicInfo" listener="#{beezzerData.checkIfChanged()}"/>
                 <f:validateRegex pattern="^[^@]+@[^@]+\.[^@]+$"/>
@@ -26,7 +31,7 @@
             <p:message for="email" display="text"/>
             <br/>
             <p:outputLabel for="@next" value="Username" style="font-size: 12px;"/><br/>
-            <p:inputText id="username" value="#{beezzerData.username}" required="true"
+            <p:inputText id="username" value="#{beezzerData.newUsername}" required="true" style="width: 459px;"
                          requiredMessage="Username is required.">
                 <p:ajax event="blur" update="basicInfo" listener="#{beezzerData.checkIfChanged()}"/>
                 <p:ajax event="keyup" update="basicInfo" listener="#{beezzerData.checkIfChanged()}"/>
@@ -36,18 +41,20 @@
             <p:spacer height="30"/>
             <p:commandButton id="updateButton" value="Update" disabled="#{beezzerData.buttonDisabled}"
                              action="#{beezzerData.updateBeezzer()}"
-                             update="basicInfo"/>
+                             update="basicInfo growl"/>
             <p:spacer width="10"/>
-            <p:commandButton id="undoButton" value="Undo"  immediate="true"
-                             update="basicInfo" oncomplete="window.location.reload();"/>
+            <p:commandButton id="undoButton" value="Undo"
+                             action="#{beezzerData.resetBeezzer()}" disabled="#{beezzerData.buttonDisabled}"
+                             update="basicInfo growl"/>
             <p:dialog id="updateErrorDialog"
                       widgetVar="updateErrorDialog"
                       header="Update impossible"
                       modal="true"
                       resizable="true"
-                      width="250"
-                      height="50">
+                      width="400"
+                      height="100">
                 <h:outputText id="updateErrorMessage" value="#{beezzerData.dialogMessage}"/>
+
             </p:dialog>
         </h:form>
         <br/>
@@ -55,21 +62,29 @@
         <p:outputLabel for="@next" value="Change Password"/>
         <h:form id="changePasswordForm">
             <p:outputLabel for="@next" value="New Password" style="font-size: 12px;"/><br/>
-            <p:password id="newPassword" value="#{beezzerData.newPassword}" autocomplete="new-password"
-                        redisplay="true" toggleMask="true" feedback="false"
-                        required="true" requiredMessage="New password is required.">
-                <p:ajax event="blur" update="changePasswordButton"/>
+            <p:password id="newPassword"
+                        value="#{beezzerData.newPassword}"
+                        autocomplete="new-password"
+                        feedback="true"
+                        toggleMask="true"
+                        required="true" style="width: 459px;"
+                        requiredMessage="New password is required."
+                        validator="passwordStrengthValidator">
             </p:password>
-            <p:message for="newPassword" display="text"/>
+            <p:message for="newPassword"
+                       display="text"/>
             <br/>
             <p:spacer height="30"/>
-            <p:commandButton id="changePasswordButton" value="Save"
+            <p:commandButton id="changePasswordButton"
+                             value="Save"
                              action="#{beezzerData.savePasswordChange()}"
-                             update="changePasswordForm"/>
+                             update="changePasswordForm growl"/>
             <p:spacer width="10"/>
-            <p:commandButton id="resetPasswordButton" value="Reset"
-                             actionListener="#{beezzerData.resetPasswordChange()}" immediate="true"
-                             update="changePasswordForm" oncomplete="window.location.reload();"/>
+            <p:commandButton id="resetPasswordButton"
+                             value="Reset"
+                             actionListener="#{beezzerData.resetPasswordChange()}"
+                             update="changePasswordForm"
+                             oncomplete="window.location.reload();"/>
             <p:dialog id="passwordChangeDialog"
                       widgetVar="passwordChangeDialog"
                       header="Password Change"
@@ -82,23 +97,61 @@
         </h:form>
         <br/>
 
-
+        <h:form>
             <p:growl id="msg" showDetail="true" escape="false"/>
             <div class="card">
-                <p:pickList id="instantPickList" value="#{pickListView.pollens}" var="pollens"
+                <p:pickList id="instantPickList" value="#{beezzerData.pickListView.pollens}" var="pollens"
                             itemLabel="#{pollens}" itemValue="#{pollens}" transferOnCheckboxClick="true"
-                            showCheckbox="true" showSourceControls="false" showTargetControls="false"/>
+                            showCheckbox="true" showSourceControls="false" showTargetControls="false" />
             </div>
             <br/>
             <p:spacer height="30"/>
             <p:commandButton id="changeAllergenList" value="Save"
-                             action="#{beezzerData.savePasswordChange()}"
-                             update="changePasswordForm"/>
+                             action="#{beezzerData.saveAllergen()}" update="growl"/>
             <p:spacer width="10"/>
             <p:commandButton id="resetAllergenList" value="Reset"
-                             actionListener="#{beezzerData.resetPasswordChange()}" immediate="true"
-                             update="changePasswordForm" oncomplete="window.location.reload();"/>
+                             actionListener="#{beezzerData.resetAllergenList()}" immediate="true"
+                             update="instantPickList" oncomplete="window.location.reload();"/>
+        </h:form>
         <br/>
+        <h:form>
+            <p:growl id="msgElement" showDetail="true" escape="false"/>
+            <p:spacer height="30"/>
+            <p:outputLabel for="@next" value="NPA" style="font-size: 12px;"/><br/>
+            <p:inputText id="npa" value="#{beezzerData.newLocation.NPA}" style="width: 459px;" required="true"
+                                 requiredMessage="NPA is required."/>
+            <p:spacer height="10"/>
+            <br/>
+            <p:outputLabel for="@next" value="Country" style="font-size: 12px;"/><br/>
+            <p:inputText id="country"
+                         value="#{beezzerData.newLocation.country}"
+                         style="width: 459px;"
+                         required="true"
+                         requiredMessage="Country is required."
+                         validatorMessage="Country must contain exactly 2 letters. Like Switzerland is CH">
+            <f:validateRegex pattern="^[A-Za-z]{2}$" />
+            </p:inputText>
+        <br/>
+        <br/>
+        <script src="https://maps.google.com/maps/api/js?key=#{utilis.apikey}" type="text/javascript"></script>
+        <div class="card">
+            <p:gmap id="gmap"  center="#{beezzerData.newLocation.coordinate.latitude}, #{beezzerData.newLocation.coordinate.longitude}" zoom="15" type="HYBRID" style="width:500px;height:200px" />
+        </div>
+        <br/>
+            <p:commandButton id="checkLocation" value="Check"
+                             actionListener="#{beezzerData.checkLocation()}"
+                             update="gmap npa country changeLocation resetLocation growl" />
+            <p:spacer width="10"/>
+            <p:commandButton id="changeLocation" value="Save"
+                             action="#{beezzerData.saveLocation()}"
+                             update="gmap npa country changeLocation resetLocation growl"
+                             disabled="#{!beezzerData.changedLocationValid}" />
+            <p:spacer width="10"/>
+            <p:commandButton id="resetLocation" value="Reset"
+                             actionListener="#{beezzerData.resetLocation()}"
+                             update="gmap npa country changeLocation resetLocation"
+                             disabled="#{!beezzerData.changedLocationValid}" />
+        </h:form>
 
     </ui:define>
 

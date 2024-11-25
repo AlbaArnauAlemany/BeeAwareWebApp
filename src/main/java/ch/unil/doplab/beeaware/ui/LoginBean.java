@@ -58,14 +58,10 @@ public class LoginBean implements Serializable {
                 session.setAttribute("beezzerId", token.getBeezzerId());
                 session.setAttribute("role", token.getRole());
                 session.setAttribute("expiration", token.getExpiration());
-                System.out.println("Session ID in LoginBean: " + session.getId());
                 theService.authenticateSession(session);
                 beezzerData.setId(token.getBeezzerId());
                 beezzerData.setToken(token);
-                System.out.println("Token received: " + token + "");
-                System.out.println("Token set in session: " + session.getAttribute("bearerToken"));
                 BeezzerDTO beezzerDTO = theService.getBeezzerService().getBeezzer(token.getBeezzerId());
-                System.out.println("Beezzer received: " + beezzerDTO.toString() + "");
                 beezzerData.setNewBeezzerData(beezzerDTO);
                 return "HomePage.xhtml?faces-redirect=true";
             }

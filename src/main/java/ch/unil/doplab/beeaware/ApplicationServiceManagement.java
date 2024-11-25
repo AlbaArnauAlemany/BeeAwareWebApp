@@ -4,7 +4,6 @@ import ch.unil.doplab.beeaware.service.*;
 import ch.unil.doplab.beeaware.service.authentification.AuthentificationService;
 import ch.unil.doplab.beeaware.service.authentification.BearerTokenFilter;
 import ch.unil.doplab.beeaware.service.authentification.SessionUtils;
-import ch.unil.doplab.beeaware.ui.PickListView;
 import jakarta.annotation.PostConstruct;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
@@ -44,7 +43,6 @@ public class ApplicationServiceManagement {
     private WebTarget symptomTarget;
     private WebTarget excelTarget;
 
-    private PickListView pickListView;
     @Inject
     private Utilis utilis;
 
@@ -62,7 +60,6 @@ public class ApplicationServiceManagement {
         coordinateService = new CoordinateService(client.target(BASE_URL).path("geo"));
         indexPollenForBeezzerService = new IndexPollenForBeezzerService(client.target(BASE_URL).path("forecast"));
         symptomService = new SymptomService(client.target(BASE_URL).path("symptom"));
-        pickListView = new PickListView();
         System.out.println("Utilis API Key length: " + utilis.getApikey().length());
     }
 
