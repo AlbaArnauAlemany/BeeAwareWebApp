@@ -2,6 +2,7 @@ package ch.unil.doplab.beeaware.ui;
 
 import ch.unil.doplab.beeaware.ApplicationServiceManagement;
 import ch.unil.doplab.beeaware.Domain.DTO.PollenInfoDTO;
+import jakarta.annotation.PostConstruct;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 import lombok.Getter;
@@ -17,16 +18,17 @@ import java.util.List;
 @Setter
 public class IndexPollenForBeezzerBean implements Serializable {
     @Inject
-    ApplicationServiceManagement theService;
+    BeezzerData beezzerData;
 
     private String date;
     private Long beezzerId;
     private List<PollenInfoDTO> pollenInfo;
 
+    @PostConstruct
     public void init() {
+        beezzerId = beezzerData.getId();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM-dd-yyyy");
         date = LocalDate.now().format(formatter);
-        // TODO: beezzerId = getLoggedInBeezzerId();
         pollenInfo = getIndex(date, beezzerId);
     }
 
@@ -36,9 +38,8 @@ public class IndexPollenForBeezzerBean implements Serializable {
         this.pollenInfo = null;
     }
 
-    // TODO: getIndex doit être exécuté chaque fois qu'on ouvre la page ou chaque jour?
     public List<PollenInfoDTO> getIndex(String date, Long beezzerId){
-        pollenInfo = theService.getIndexPollenForBeezzerService().getIndex(date, beezzerId);
+        pollenInfo = beezzerData.theService.getIndexPollenForBeezzerService().getIndex(date, beezzerId);
         return pollenInfo;
     }
 

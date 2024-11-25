@@ -91,6 +91,7 @@ public class BeezzerData extends Beezzer{
         this.country = beezzerDTO.getLocation().getCountry();
         this.newNpa = beezzerDTO.getLocation().getNPA();
         this.newCountry = beezzerDTO.getLocation().getCountry();
+        this.cityName = beezzerDTO.getLocation().getCityName();
         this.allergensListString = new ArrayList<>();
         for (PollenDTO pollenAllergen : beezzerDTO.getAllergens().getPollenList()){
             this.allergensListString.add(pollenAllergen.getPollenNameEN());
