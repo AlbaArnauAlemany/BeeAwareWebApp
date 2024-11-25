@@ -43,11 +43,15 @@ public class IndexPollenForBeezzerBean implements Serializable {
     }
 
     public String getGaugeClass(int index) {
-        if (index >= 0 && index <= 29) {
+        if (index == 0) {
+            return "none";
+        } else if (index == 1) {
+            return "very-low";
+        } else if (index == 2) {
             return "low";
-        } else if (index >= 30 && index <= 60) {
+        } else if (index == 3) {
             return "medium";
-        } else if (index >= 61 && index <= 341) {
+        } else if (index == 4){
             return "high";
         } else {
             return "very-high";
