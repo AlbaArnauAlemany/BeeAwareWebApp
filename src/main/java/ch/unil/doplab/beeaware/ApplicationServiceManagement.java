@@ -34,22 +34,9 @@ public class ApplicationServiceManagement {
     private SymptomService symptomService;
     private Client client;
 
-
-    private WebTarget authenticationTarget;
-    private WebTarget beezzerTarget;
-    private WebTarget locationTarget;
-    private WebTarget pollenLocationIndexTarget;
-    private WebTarget indexPollenForBeezzerTarget;
-    private WebTarget serviceTarget;
-    private WebTarget symptomTarget;
-    private WebTarget excelTarget;
-
     private PickListView pickListView;
     @Inject
     private Utilis utilis;
-
-
-
 
     @PostConstruct
     public void init() {

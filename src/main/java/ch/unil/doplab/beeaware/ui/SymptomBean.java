@@ -14,11 +14,7 @@ import lombok.Setter;
 public class SymptomBean {
 
     @Inject
-    ApplicationServiceManagement theService;
-
-    @Inject
     BeezzerData beezzerData;
-
 
     private String date;
     private Long beezzerId;
@@ -46,7 +42,7 @@ public class SymptomBean {
     }
 
     public Symptom registerSymptoms(int reactionValue, boolean antihistamine, Long beezzerId) {
-        symptomInfo = theService.getSymptomService().createSymptom(reactionValue, antihistamine, beezzerId);
+        symptomInfo = beezzerData.theService.getSymptomService().createSymptom(reactionValue, antihistamine, beezzerId);
         return symptomInfo;
     }
 
