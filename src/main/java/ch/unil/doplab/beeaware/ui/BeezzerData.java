@@ -6,6 +6,7 @@ import ch.unil.doplab.beeaware.Domain.DTO.AllergenDTO;
 import ch.unil.doplab.beeaware.Domain.DTO.BeezzerDTO;
 import ch.unil.doplab.beeaware.Domain.DTO.LocationDTO;
 import ch.unil.doplab.beeaware.Domain.DTO.PollenDTO;
+import jakarta.annotation.PostConstruct;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.faces.application.FacesMessage;
 import jakarta.faces.context.FacesContext;
@@ -31,7 +32,7 @@ import static ch.unil.doplab.beeaware.Domain.Pollen.getPollenByName;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class BeezzerData extends Beezzer{
+public class BeezzerData extends Beezzer {
 
     private Long id;
     private String email;
@@ -68,6 +69,14 @@ public class BeezzerData extends Beezzer{
     private boolean changedPassword;
     private boolean changedLocationValid;
 
+    @PostConstruct
+    public void init() {
+        System.out.println("BeezzerData initialized: " + this);
+        System.out.println("TheService initialized: " + theService);
+        if (theService == null) {
+            throw new RuntimeException("theService is not injected!");
+        }
+    }
 
     public void loadBeezzers() {
         beezzerDTOs = theService.getBeezzerService().getAllBeezzers();
@@ -77,7 +86,6 @@ public class BeezzerData extends Beezzer{
         return !changed;
     }
 
-
     public void setNewBeezzerData(BeezzerDTO beezzerDTO){
         System.out.println(beezzerDTO);
         this.id = beezzerDTO.getId();
@@ -85,8 +93,8 @@ public class BeezzerData extends Beezzer{
         this.newUsername = beezzerDTO.getUsername();
         this.email = beezzerDTO.getEmail();
         this.newEmail = beezzerDTO.getEmail();
-        this.location = new Location(beezzerDTO.getLocation().getNPA(), beezzerDTO.getLocation().getCountry(), beezzerDTO.getLocation().getCoordinate());
-        this.newLocation = new Location(beezzerDTO.getLocation().getNPA(), beezzerDTO.getLocation().getCountry(), beezzerDTO.getLocation().getCoordinate());
+        this.location = new Location(beezzerDTO.getLocation().getNPA(), beezzerDTO.getLocation().getCountry(), theService.getCoordinateService().getCoordinates(beezzerDTO.getLocation().getNPA(), beezzerDTO.getLocation().getCountry()));
+        this.newLocation = new Location(beezzerDTO.getLocation().getNPA(), beezzerDTO.getLocation().getCountry(), theService.getCoordinateService().getCoordinates(beezzerDTO.getLocation().getNPA(), beezzerDTO.getLocation().getCountry()));
         this.npa = beezzerDTO.getLocation().getNPA();
         this.country = beezzerDTO.getLocation().getCountry();
         this.newNpa = beezzerDTO.getLocation().getNPA();

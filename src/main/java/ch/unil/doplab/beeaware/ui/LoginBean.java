@@ -25,7 +25,6 @@ public class LoginBean implements Serializable {
     @Inject
     BeezzerData beezzerData;
 
-
     @PostConstruct
     public void init() {
         HttpSession session = SessionUtils.getSession(true); // Utilisation de la session centralisée

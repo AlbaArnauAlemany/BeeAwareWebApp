@@ -9,6 +9,7 @@ import jakarta.ws.rs.core.Response;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
+import java.util.Collections;
 import java.util.List;
 
 @NoArgsConstructor
@@ -20,7 +21,7 @@ public class IndexPollenForBeezzerService {
     // TODO: We only want in the PollenDTO the pollen name and the index (and maybe recommendations)
     public List<PollenInfoDTO> getIndex(String date, Long beezzerId) {
         WebTarget targetWithParams = indexPollenForBeezzerTarget
-                .path("date/beezzer" + beezzerId.toString())
+                .path("date/beezzer/" + beezzerId.toString())
                 .queryParam("date", date);
 
         Response response = targetWithParams
@@ -29,8 +30,11 @@ public class IndexPollenForBeezzerService {
 
         if (response.getStatus() == 200) {
             return response.readEntity(new GenericType<List<PollenInfoDTO>>() {});
+        } else if (response.getStatus() == 404) {
+        // Handle 404 case: No pollen data found for the Beezzer
+        return Collections.emptyList();  // Return empty list instead of throwing exception
         } else {
-            throw new RuntimeException("Sorry, we couldn't retrieve the pollen indexes for the beezzer :" + response.getStatusInfo().getReasonPhrase());
+            throw new RuntimeException("[We are in the IndexPollenForBeezzerService class] Sorry, we couldn't retrieve the pollen indexes for the beezzer :" + response.getStatusInfo().getReasonPhrase());
         }
     }
 }

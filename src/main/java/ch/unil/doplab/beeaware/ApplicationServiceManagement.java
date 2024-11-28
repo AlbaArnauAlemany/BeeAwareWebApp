@@ -4,6 +4,7 @@ import ch.unil.doplab.beeaware.service.*;
 import ch.unil.doplab.beeaware.service.authentification.AuthentificationService;
 import ch.unil.doplab.beeaware.service.authentification.BearerTokenFilter;
 import ch.unil.doplab.beeaware.service.authentification.SessionUtils;
+import ch.unil.doplab.beeaware.ui.PickListView;
 import jakarta.annotation.PostConstruct;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;

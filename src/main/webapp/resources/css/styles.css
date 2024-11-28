@@ -79,8 +79,8 @@ body {
     border-radius: 10px;
     margin-top: 5px;
 }
-.none { background: #cccccc; }
-.very-low { background: green; }
+.none { background-color: #cccccc; }
+.very-low { background-color: green; }
 .low { background-color: #a0d3a0; }
 .medium { background-color: #ffd700; }
 .high { background-color: #ff7f50; }
