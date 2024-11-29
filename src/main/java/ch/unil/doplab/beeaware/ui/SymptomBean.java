@@ -1,12 +1,17 @@
 package ch.unil.doplab.beeaware.ui;
 
 import ch.unil.doplab.beeaware.ApplicationServiceManagement;
+import ch.unil.doplab.beeaware.Domain.DTO.SymptomsDTO;
 import ch.unil.doplab.beeaware.Domain.Symptom;
 import jakarta.annotation.PostConstruct;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.Collections;
 
 @Named
 @Getter
@@ -20,11 +25,32 @@ public class SymptomBean {
     private Long beezzerId;
     private int reactionValue;
     private boolean antihistamine;
-    private Symptom symptomInfo;
+    private SymptomsDTO symptomInfo;
+    private Symptom registeredSymptoms;
 
     @PostConstruct
     public void init() {
+
+        // Check for not null injects
+        if (beezzerData == null) {
+            throw new RuntimeException("BeezzerData is not injected!");
+        }
+        if (beezzerData.getTheService() == null) {
+            throw new RuntimeException("ApplicationServiceManagement is not injected into BeezzerData!");
+        }
+
+        // Retrieve beezzer id from beezzerData
         beezzerId = beezzerData.getId();
+
+        // Use today's date and correctly format it for future use
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM-dd-yyyy");
+        date = LocalDate.now().format(formatter);
+
+        // Check correct population of id and date
+        System.out.println("Beezzer ID: " + beezzerId);
+        System.out.println("Date: " + date);
+
+        symptomInfo = getSymptomForDate(beezzerId, date);
     }
 
     public void reset() {
@@ -42,8 +68,20 @@ public class SymptomBean {
     }
 
     public Symptom registerSymptoms(int reactionValue, boolean antihistamine, Long beezzerId) {
-        symptomInfo = beezzerData.theService.getSymptomService().createSymptom(reactionValue, antihistamine, beezzerId);
-        return symptomInfo;
+        registeredSymptoms = beezzerData.getTheService().getSymptomService().createSymptom(reactionValue, antihistamine, beezzerId);
+        return registeredSymptoms;
     }
 
+    public SymptomsDTO getSymptomForDate(Long beezzerId, String date) {
+        try {
+            System.out.println("Beezzer ID: " + beezzerId);
+            System.out.println("Date: " + date);
+            symptomInfo = beezzerData.getTheService().getSymptomService().getSymptomForDate(beezzerId, date);
+            return symptomInfo;
+        } catch (RuntimeException e) {
+            System.out.println("[We are in the SymptomBean class] The getSymptomForDate() methode couldn't be handled...");
+            e.printStackTrace();
+            return null;
+        }
+    }
 }

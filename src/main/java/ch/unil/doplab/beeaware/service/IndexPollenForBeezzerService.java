@@ -18,7 +18,6 @@ public class IndexPollenForBeezzerService {
 
     private WebTarget indexPollenForBeezzerTarget;
 
-    // TODO: We only want in the PollenDTO the pollen name and the index (and maybe recommendations)
     public List<PollenInfoDTO> getIndexForDate(String date, Long beezzerId) {
         WebTarget targetWithParams = indexPollenForBeezzerTarget
                 .path("date/beezzer/" + beezzerId.toString())
