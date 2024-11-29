@@ -61,33 +61,76 @@ body {
 
 /* ----------------------------------- */
 
-
 .pollen-card {
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  padding: 10px;
-  margin: 10px;
-  text-align: center;
-  display: inline-block;
-  width: 150px;
-  height: 150px;
-  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* Ensures content is spaced evenly */
+    align-items: center;
+    width: 200px; /* Fixed width to ensure uniformity */
+    height: 250px; /* Fixed height for uniform card sizes */
+    padding: 15px;
+    margin: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    box-sizing: border-box;
 }
-.gauge {
-    height: 20px;
-    background: #f0f0f0;
-    border-radius: 10px;
-    margin-top: 5px;
+
+.pollen-title {
+    font-size: 1.4em; /* Larger than the index */
+    word-wrap: break-word; /* Allows long words to break and wrap */
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: normal; /* Allows wrapping */
+    height: 3em; /* Fixed height to keep all titles the same size */
+    display: -webkit-box;
+    -webkit-line-clamp: 2; /* Limits the title to two lines */
+    -webkit-box-orient: vertical;
 }
-.none { background-color: #cccccc; }
-.very-low { background-color: green; }
-.low { background-color: #a0d3a0; }
-.medium { background-color: #ffd700; }
-.high { background-color: #ff7f50; }
-.very-high { background-color: #ff4500; }
+
+.pollen-index {
+    font-size: 0.9em; /* Smaller than the title */
+    color: #575656; /* Subtle color to differentiate it from the title */
+    margin-top: 10px;
+    font-weight: normal; /* Optional, to reduce emphasis */
+}
+
 .no-pollen-message {
     font-size: 18px;
     color: green;
     text-align: center;
     margin: 20px;
+}
+
+/* Overall styling for the custom progress bar */
+.custom-progress-bar {
+    height: 20px; /* Set a specific height */
+    border-radius: 10px; /* Rounded corners */
+}
+
+/* Styling for the progress bar background */
+.custom-progress-bar .ui-progressbar-value {
+    border-radius: 10px; /* Rounded corners for the filled part */
+}
+
+/* Adjust colors based on the index value */
+.custom-progress-bar.none .ui-progressbar-value {
+    background-color: #cccccc !important; /* No pollen */
+}
+.custom-progress-bar.very-low .ui-progressbar-value {
+    background-color: #3cb043 !important; /* Very low pollen */
+}
+.custom-progress-bar.low .ui-progressbar-value {
+    background-color: #ffd700 !important; /* Low pollen */
+}
+.custom-progress-bar.medium .ui-progressbar-value {
+    background-color: #ffa500 !important; /* Medium pollen */
+}
+.custom-progress-bar.high .ui-progressbar-value {
+    background-color: #ed0010 !important; /* High pollen */
+}
+.custom-progress-bar.very-high .ui-progressbar-value {
+    background-color: #7f00ff !important; /* Very high pollen */
 }

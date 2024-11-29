@@ -14,60 +14,81 @@
     <ui:define name="section-title">Dashboard</ui:define>
 
     <ui:define name="section-content">
+        <p:growl id="message" showDetail="true" life="3000"/>
+
         <h:head>
-            <h:outputStylesheet name="css/styles.css"/>
+            <!-- Include the CSS stylesheet with versioning -->
+            <h:outputStylesheet name="css/styles.css">
+                <f:param name="v" value="1.0" />
+            </h:outputStylesheet>
             <title>Dashboard</title>
         </h:head>
         <h:body>
-                <div style="display: flex; justify-content: flex-end; width: 100%;">
-                        <p>
-                            <i class="pi pi-map-marker" style="color: #818181; margin-right: 10px;"></i>
-                            <strong style ="color: #818181; font-size: 15px">#{beezzerData.cityName}, #{beezzerData.country}</strong>
-                        </p>
-                </div>
+<!--            <p:remoteCommand name="checkPollenIndex"-->
+<!--                             actionListener="#{indexPollenForBeezzerBean.checkAndSetMessage()}"-->
+<!--                             update="message" />-->
 
-                <div style="display: flex; flex-wrap: wrap; justify-content: center; width: 100%;">
-<!--                    <h:outputText value="#{indexPollenForBeezzerBean.pollenInfo != null ? 'PollenInfo is not null' : 'PollenInfo is null'}" />-->
-                    <h:panelGroup rendered="#{not empty indexPollenForBeezzerBean.pollenInfo}">
-                        <ui:repeat value="#{indexPollenForBeezzerBean.pollenInfo}" var="pollenInfo">
-                            <div class="pollen-card">
-                                <h3>#{pollenInfo.displayName}</h3>
-                                <p>Index: #{pollenInfo.index}</p>
-                            </div>
-                        </ui:repeat>
-                    </h:panelGroup>
-<!--                    <ui:repeat value="#{indexPollenForBeezzerBean.pollenInfo}" var="pollenInfo">-->
-<!--                        <div class="pollen-card">-->
-<!--                            <h3>#{pollenInfo.displayName}</h3>-->
-<!--                            <div class="gauge #{indexPollenForBeezzerBean.getGaugeClass(pollenInfo.index)}" style="width: max(#{pollenInfo.index})px;"></div>-->
-<!--                            <p>Index: #{indexPollenForBeezzerBean.pollenInfo}</p>-->
-<!--                        </div>-->
-<!--                    </ui:repeat>-->
+            <p:commandButton id="updateButton" value="UpdatePollen"
+                             action="#{indexPollenForBeezzerBean.checkAndSetMessage()}"
+                             update="message"/>
 
-<!--                    <h:panelGroup rendered="#{empty indexPollenForBeezzerBean.pollenInfo}">-->
-<!--                        <h:outputText value="Lucky day! There is no pollen charge for the pollens you are allergic to today! Enjoy the outdoors and take a deep breath of fresh air!"-->
-<!--                                      styleClass="no-pollen-message"/>-->
-<!--                    </h:panelGroup>-->
-                </div>
+            <h:form id ="location">
+            <div style="display: flex; justify-content: flex-end; width: 100%;">
+                <p>
+                    <i class="pi pi-map-marker" style="color: #818181; margin-right: 10px;"></i>
+                    <strong style ="color: #818181; font-size: 15px">#{beezzerData.cityName}, #{beezzerData.country}</strong>
+                </p>
+            </div>
+            </h:form>
+            <div style="display: flex; flex-wrap: wrap; justify-content: center; width: 100%;">
+                <h:panelGroup rendered="#{not empty indexPollenForBeezzerBean.pollenInfo}">
+                    <ui:repeat value="#{indexPollenForBeezzerBean.pollenInfo}" var="pollenInfo">
+                        <div class="pollen-card">
+                            <h3 class="pollen-title">#{pollenInfo.displayName}</h3>
 
-                <p:commandButton icon="pi pi-pen-to-square" value="Register Symptoms" type="button" style="color: #000000" onclick="PF('symptoms').show()" styleClass="mr-2" />
+                            <!-- PrimeFaces ProgressBar -->
+                            <p:progressBar
+                                    value="#{pollenInfo.index * 20}"
+                                    maxValue="100"
+                                    styleClass="custom-progress-bar #{indexPollenForBeezzerBean.getPollenClass(pollenInfo)}"
+                                    style="height: 20px; width: 100%;"
+                                    labelTemplate=""/>
 
-                <div align="center">
-                    <p:sidebar widgetVar="symptoms" position="bottom" style="bottom: 100px;">
-                        <h3>Register Symptoms</h3>
-                        <h:form>
-                            <p:growl id="growl" showDetail="true"/>
-                            <h4 class="mt-0">How are you feeling today?</h4>
-                            <h:panelGrid columns="1" style="margin-bottom: 10px">
-                                <p:inputText id="txt" value="#{symptomBean.reactionValue}"/>
-                                <p:slider for="txt" range="false"/>
-                            </h:panelGrid>
-                        </h:form>
-                        check with antihistamine
-                        <p:commandButton id="registerSymptoms" icon="pi pi-check" style="color: #31a2d5" value="Register Symptoms" action="#{symptomBean.registerSymptoms}"/>
+                            <p class="pollen-index">Index: #{pollenInfo.index}</p>
+                        </div>
+                    </ui:repeat>
+                </h:panelGroup>
+            </div>
 
-                    </p:sidebar>
-                </div>
+            <div style="display: flex; flex-wrap: wrap; justify-content: center; width: 100%;">
+                <h:panelGroup>
+                        <div class="pollen-card">
+                            <h3 class="pollen-title">Today's Symptoms</h3>
+                            <p class="pollen-index">#{symptomBean.index}</p>
+                        </div>
+                </h:panelGroup>
+            </div>
+
+            <h:form id="Symptomms">
+            <p:commandButton icon="pi pi-pen-to-square" value="Register Symptoms" type="button" style="color: #000000" onclick="PF('symptoms').show()" styleClass="mr-2" />
+
+            <div align="center">
+                <p:sidebar widgetVar="symptoms" position="bottom" style="bottom: 100px;">
+                    <h3>Register Symptoms</h3>
+                    <h:form>
+                        <h4 class="mt-0">How are you feeling today?</h4>
+                        <h:panelGrid columns="1" style="margin-bottom: 10px">
+                            <p:inputText id="txt" value="#{symptomBean.reactionValue}"/>
+                            <p:slider for="txt" range="false"/>
+                        </h:panelGrid>
+                    </h:form>
+                    check with antihistamine
+                    <p:commandButton id="registerSymptoms" icon="pi pi-check" style="color: #31a2d5" value="Register Symptoms" action="#{symptomBean.registerSymptoms}"/>
+
+                </p:sidebar>
+            </div>
+            </h:form>
+
         </h:body>
     </ui:define>
 </ui:composition>

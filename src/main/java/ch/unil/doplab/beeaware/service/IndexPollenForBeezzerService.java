@@ -19,7 +19,7 @@ public class IndexPollenForBeezzerService {
     private WebTarget indexPollenForBeezzerTarget;
 
     // TODO: We only want in the PollenDTO the pollen name and the index (and maybe recommendations)
-    public List<PollenInfoDTO> getIndex(String date, Long beezzerId) {
+    public List<PollenInfoDTO> getIndexForDate(String date, Long beezzerId) {
         WebTarget targetWithParams = indexPollenForBeezzerTarget
                 .path("date/beezzer/" + beezzerId.toString())
                 .queryParam("date", date);
@@ -31,8 +31,7 @@ public class IndexPollenForBeezzerService {
         if (response.getStatus() == 200) {
             return response.readEntity(new GenericType<List<PollenInfoDTO>>() {});
         } else if (response.getStatus() == 404) {
-        // Handle 404 case: No pollen data found for the Beezzer
-        return Collections.emptyList();  // Return empty list instead of throwing exception
+        return Collections.emptyList();
         } else {
             throw new RuntimeException("[We are in the IndexPollenForBeezzerService class] Sorry, we couldn't retrieve the pollen indexes for the beezzer :" + response.getStatusInfo().getReasonPhrase());
         }
