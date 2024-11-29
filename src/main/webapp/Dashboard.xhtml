@@ -21,7 +21,9 @@
             <h:outputStylesheet name="css/styles.css">
                 <f:param name="v" value="1.0" />
             </h:outputStylesheet>
+
             <title>Dashboard</title>
+
         </h:head>
         <h:body>
 <!--            <p:remoteCommand name="checkPollenIndex"-->
@@ -60,35 +62,41 @@
                 </h:panelGroup>
             </div>
 
+
             <div style="display: flex; flex-wrap: wrap; justify-content: center; width: 100%;">
-                <h:panelGroup>
-                        <div class="pollen-card">
-                            <h3 class="pollen-title">Today's Symptoms</h3>
-                            <p class="pollen-index">#{symptomBean.index}</p>
-                        </div>
-                </h:panelGroup>
+                <h:form id="symptomCard">
+                    <h:panelGroup id="symptomPanel">
+                            <div class="pollen-card">
+                                <h3 class="pollen-title">Today's Symptoms</h3>
+                                <p class="pollen-index">#{symptomBean.symptomInfo.level}</p>
+                            </div>
+                    </h:panelGroup>
+                </h:form>
+                <p:commandButton icon="pi pi-pen-to-square" value="Register Symptoms" type="button" style="color: #000000" onclick="PF('symptoms').show()" styleClass="mr-2" />
             </div>
 
-            <h:form id="Symptomms">
-            <p:commandButton icon="pi pi-pen-to-square" value="Register Symptoms" type="button" style="color: #000000" onclick="PF('symptoms').show()" styleClass="mr-2" />
-
-            <div align="center">
-                <p:sidebar widgetVar="symptoms" position="bottom" style="bottom: 100px;">
-                    <h3>Register Symptoms</h3>
-                    <h:form>
+            <h:form id="symptomForm">
+                <div align="center">
+                    <p:sidebar widgetVar="symptoms" position="bottom" styleClass="custom-sidebar">
+                        <h3>Register Symptoms</h3>
                         <h4 class="mt-0">How are you feeling today?</h4>
                         <h:panelGrid columns="1" style="margin-bottom: 10px">
-                            <p:inputText id="txt" value="#{symptomBean.reactionValue}"/>
-                            <p:slider for="txt" range="false"/>
+
+                            <h:outputText id="reactionLabel" value="#{symptomBean.reactionName}"/>
+
+                            <p:slider id="reactionSlider" minValue="0" maxValue="5" value="#symptomBean.reactionValue}" onSlideEnd="updateReactionLabel()"  style="width: 300px" >
+                                <p:ajax event="slideEnd" listener="#{symptomBean.updateReactionName}" update="reactionLabel" />
+                            </p:slider>
+
+                            <p:selectBooleanCheckbox id="antihistamineCheckbox" value="#{symptomBean.antihistamine}" itemLabel="Took Antihistamine" />
+
                         </h:panelGrid>
-                    </h:form>
-                    check with antihistamine
-                    <p:commandButton id="registerSymptoms" icon="pi pi-check" style="color: #31a2d5" value="Register Symptoms" action="#{symptomBean.registerSymptoms}"/>
 
-                </p:sidebar>
-            </div>
+                        <p:commandButton id="registerSymptoms" icon="pi pi-check" value="Register Symptoms" action="#{symptomBean.registerSymptoms()}" update="message @form symptomCard:symptomPanel" style="color: #31a2d5" />
+
+                    </p:sidebar>
+                </div>
             </h:form>
-
         </h:body>
     </ui:define>
 </ui:composition>

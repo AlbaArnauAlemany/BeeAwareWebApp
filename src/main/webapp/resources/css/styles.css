@@ -79,43 +79,33 @@ body {
 }
 
 .pollen-title {
-    font-size: 1.4em; /* Larger than the index */
-    word-wrap: break-word; /* Allows long words to break and wrap */
+    font-size: 1.4em;
+    word-wrap: break-word;
     overflow: hidden;
     text-overflow: ellipsis;
-    white-space: normal; /* Allows wrapping */
-    height: 3em; /* Fixed height to keep all titles the same size */
+    white-space: normal;
+    height: 3em;
     display: -webkit-box;
-    -webkit-line-clamp: 2; /* Limits the title to two lines */
+    -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
 }
 
 .pollen-index {
-    font-size: 0.9em; /* Smaller than the title */
-    color: #575656; /* Subtle color to differentiate it from the title */
+    font-size: 0.9em;
+    color: #575656;
     margin-top: 10px;
-    font-weight: normal; /* Optional, to reduce emphasis */
+    font-weight: normal;
 }
 
-.no-pollen-message {
-    font-size: 18px;
-    color: green;
-    text-align: center;
-    margin: 20px;
-}
-
-/* Overall styling for the custom progress bar */
 .custom-progress-bar {
     height: 20px; /* Set a specific height */
     border-radius: 10px; /* Rounded corners */
 }
 
-/* Styling for the progress bar background */
 .custom-progress-bar .ui-progressbar-value {
     border-radius: 10px; /* Rounded corners for the filled part */
 }
 
-/* Adjust colors based on the index value */
 .custom-progress-bar.none .ui-progressbar-value {
     background-color: #cccccc !important; /* No pollen */
 }
@@ -133,4 +123,15 @@ body {
 }
 .custom-progress-bar.very-high .ui-progressbar-value {
     background-color: #7f00ff !important; /* Very high pollen */
+}
+
+/* ----------------------------------- */
+
+.custom-sidebar {
+    height: 70% !important;
+    width: 100% !important;
+    background-color: #fff !important;
+    bottom: 0 !important;
+    overflow: auto;
+    padding: 20px;
 }

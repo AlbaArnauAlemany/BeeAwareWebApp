@@ -2,8 +2,11 @@ package ch.unil.doplab.beeaware.ui;
 
 import ch.unil.doplab.beeaware.ApplicationServiceManagement;
 import ch.unil.doplab.beeaware.Domain.DTO.SymptomsDTO;
+import ch.unil.doplab.beeaware.Domain.Reaction;
 import ch.unil.doplab.beeaware.Domain.Symptom;
 import jakarta.annotation.PostConstruct;
+import jakarta.faces.application.FacesMessage;
+import jakarta.faces.context.FacesContext;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 import lombok.Getter;
@@ -25,11 +28,14 @@ public class SymptomBean {
     private Long beezzerId;
     private int reactionValue;
     private boolean antihistamine;
+    private String reactionName;
     private SymptomsDTO symptomInfo;
     private Symptom registeredSymptoms;
 
     @PostConstruct
     public void init() {
+
+        updateReactionName();
 
         // Check for not null injects
         if (beezzerData == null) {
@@ -60,6 +66,10 @@ public class SymptomBean {
         this.antihistamine = false;
     }
 
+    public void updateReactionName() {
+        reactionName = Reaction.fromValue(reactionValue).toString();
+    }
+
     public void setReactionValue(int reactionValue) {
         if (reactionValue < 0 || reactionValue > 5) {
             throw new IllegalArgumentException("Reaction value must be between 0 and 5.");
@@ -67,9 +77,14 @@ public class SymptomBean {
         this.reactionValue = reactionValue;
     }
 
-    public Symptom registerSymptoms(int reactionValue, boolean antihistamine, Long beezzerId) {
-        registeredSymptoms = beezzerData.getTheService().getSymptomService().createSymptom(reactionValue, antihistamine, beezzerId);
-        return registeredSymptoms;
+    public Symptom registerSymptoms() {
+        try {
+            registeredSymptoms = beezzerData.getTheService().getSymptomService().createSymptom(reactionValue, antihistamine, beezzerId);
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Success", "Symptoms registered successfully!"));
+        } catch (Exception e) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Failed to register symptoms."));
+        }
+        return null;
     }
 
     public SymptomsDTO getSymptomForDate(Long beezzerId, String date) {
