@@ -135,3 +135,8 @@ body {
     overflow: auto;
     padding: 20px;
 }
+
+.text-shadow-yellow {
+    color: #efe396;
+    text-shadow: 1px 1px 2px black;
+}

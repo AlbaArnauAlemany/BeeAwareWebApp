@@ -14,10 +14,40 @@
     <ui:define name="section-title">Welcome #{beezzerData.username}</ui:define>
 
     <ui:define name="section-content">
-        <p>
-            Pollenic Allergy Monitoring Platform
-            Allergies affect a large portion of the population, and their symptoms can be exacerbated by various environmental factors, including weather conditions. <br/><br/>The platform's goal is to provide users with a channel for information on high-risk periods based on daily pollen forecasts to help them anticipate potential symptoms. <br/><br/>Additionally, it will allow users to log their perceived symptoms daily on a subjective scale so they can compare these symptoms with the pollen load index. Users can also record days when an antihistamine was taken to observe its impact on symptoms. All this information will be grouped in a graph, providing users a simple and effective visualization tool to review their personal history, helping them act accordingly or discuss with a healthcare professional. <br/><br/>The platform will rely on a Google Pollen API for pollen load forecasts to retrieve pollen indices based on the user's specified location.
-        </p>
+        <h:graphicImage class="card" width="180" value="/images/outdoor.jpg" style="background-size: cover; padding: 20px; border-radius: 8px;"/>
+        <div>
+        <h5 class="text-shadow-yellow">Pollenic Allergy Monitoring Platform</h5>
+            <p:tabView dynamic="true" cache="true">
+                <f:facet name="actions">
+                    <span class="text-shadow-yellow">Home Page</span>
+                </f:facet>
+                <p:tab title="Overview of the Platform's Purpose">
+                    <p class="m-0">
+                        Allergies affect a large portion of the population, and their symptoms can be exacerbated by various environmental factors,
+                        including weather conditions. <br/><br/>The platform's goal is to provide users with a channel for information on high-risk
+                        periods based on daily pollen forecasts to help them anticipate potential symptoms. <br/>
+                    </p>
+                </p:tab>
+                <p:tab title="User Features and Functionality">
+                    <p class="m-0">
+                        The platform will offer users the ability to log their perceived symptoms daily on a subjective scale. By tracking this data, users can compare their
+                        symptoms against the pollen load index to identify potential patterns. Additionally, users can record days when they take antihistamines to observe
+                        how medication impacts their symptoms. This feature will allow for personalized insights and informed decision-making.
+                    </p>
+                </p:tab>
+                <p:tab title="Data Visualization">
+                    <p class="m-0">
+                        All collected information will be grouped into a graph, offering a simple and effective visualization tool. This graph will display personal history,
+                        including symptom severity, pollen index, and antihistamine use. Users can review these insights to adjust their behavior accordingly or share the
+                        data with a healthcare professional. The platform will leverage the Google Pollen API to retrieve the daily pollen load based on the user's specified
+                        location, ensuring accurate and relevant information.
+                    </p>
+                </p:tab>
+            </p:tabView>
+            <div style="margin-top: 20px; text-align: center;">
+                <p:commandButton value="Start Tracking Now" action="Dashboard.xhtml" styleClass="ui-button-primary" style="font-size: 16px; padding: 10px 20px;" />
+            </div>
+        </div>
     </ui:define>
 
 </ui:composition>

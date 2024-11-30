@@ -2,10 +2,6 @@ package ch.unil.doplab.beeaware.service;
 
 import ch.unil.doplab.beeaware.Domain.DTO.SymptomsDTO;
 import ch.unil.doplab.beeaware.Domain.Symptom;
-import jakarta.ws.rs.GET;
-import jakarta.ws.rs.Path;
-import jakarta.ws.rs.PathParam;
-import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.client.Entity;
 import jakarta.ws.rs.client.WebTarget;
 import jakarta.ws.rs.core.MediaType;
@@ -21,25 +17,29 @@ public class SymptomService {
 
     public Symptom createSymptom(int reactionValue, boolean antihistamine, Long beezzerId) {
         WebTarget targetWithParams = symptomTarget
-                .path("create")
-                .queryParam("reactionValue", reactionValue)
-                .queryParam("antihistamine", antihistamine)
-                .queryParam("beezzerId", beezzerId);
+                .path("create/" + beezzerId.toString())
+                .queryParam("reaction", reactionValue)
+                .queryParam("antihistamine", antihistamine);
 
-        Response response = targetWithParams
+        try (Response response = targetWithParams
                 .request(MediaType.APPLICATION_JSON)
-                .post(Entity.json(null));
+                .post(Entity.json(null))) {
 
-        if (response.getStatus() == 200) {
-            return response.readEntity(Symptom.class);
-        } else {
-            throw new RuntimeException("Sorry, we couldn't register the symptom: " + response.getStatusInfo().getReasonPhrase());
+            if (response.getStatus() == 200) {
+                return response.readEntity(Symptom.class);
+            } else {
+                throw new RuntimeException("Sorry, we couldn't register the symptom: " + response.getStatusInfo().getReasonPhrase());
+            }
+        } catch (Exception e) {
+            // Handle the exception if needed (e.g., logging the error)
+            throw new RuntimeException("Error occurred while creating symptom: " + e.getMessage(), e);
         }
     }
 
     public SymptomsDTO getSymptomForDate(Long beezzerId, String date) {
         WebTarget targetWithParams = symptomTarget
-                .path(beezzerId.toString() + "/date")
+                .path("{id}/date")
+                .resolveTemplate("id", beezzerId)
                 .queryParam("date", date);
 
         Response response = targetWithParams
