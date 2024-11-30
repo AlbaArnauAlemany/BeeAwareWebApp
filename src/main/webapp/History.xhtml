@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="templates/BeezzerTemplate.xhtml">
+
+    <ui:define name="title">Beezzer | History</ui:define>
+
+    <ui:define name="section-title">History of Allergic Reactions</ui:define>
+
+    <ui:define name="section-content">
+        <h:form id="historyForm">
+            <div style="display: flex; justify-content: space-between; margin-bottom: 20px;">
+                <!-- Filtre des Allergènes -->
+                <div>
+                    <h4>Select Allergen:</h4>
+                    <p:selectOneMenu value="#{historyFilterController.selectedAllergen}" required="true">
+                        <f:selectItem itemLabel="Select an allergen" itemValue="" />
+                        <f:selectItems value="#{beezzerData.allergensListString}" var="allergen" itemValue="#{allergen}" itemLabel="#{allergen}" />
+                        <p:ajax listener="#{historyFilterController.onAllergenChange}" update="chartId" />
+                    </p:selectOneMenu>
+                </div>
+
+                <!-- Filtre par Date -->
+                <div>
+                    <h4>Filter by Date:</h4>
+                    <p:calendar id="startDate" value="#{historyFilterController.startDate}" placeholder="Start Date">
+                        <p:ajax listener="#{historyFilterController.onDateChange}" update="chartId" />
+                    </p:calendar>
+                    <p:calendar id="endDate" value="#{historyFilterController.endDate}" placeholder="End Date">
+                        <p:ajax listener="#{historyFilterController.onDateChange}" update="chartId" />
+                    </p:calendar>
+                </div>
+            </div>
+
+            <!-- Section du Graphique -->
+            <div style="margin-bottom: 20px;">
+                <p:chart id="chartId" type="line" model="#{historyBean.lineChartModel}" />
+            </div>
+
+            <!-- Historique des Allergies -->
+            <h4>Allergy History:</h4>
+            <ui:repeat value="#{historyBean.historyList}" var="historyItem">
+                <div class="history-item" style="margin: 10px; border: 1px solid #ccc; padding: 10px;">
+                    <h5>#{historyItem.title}</h5>
+                    <p>Date: #{historyItem.date}</p>
+                    <p>Symptoms: #{historyItem.symptoms}</p>
+                    <p>Allergen: #{historyItem.allergen}</p>
+                </div>
+            </ui:repeat>
+
+            <!-- Message si aucun historique trouvé -->
+            <h:panelGroup rendered="#{empty historyBean.historyList}">
+                <h:outputText value="No allergy history found." styleClass="no-history-message"/>
+            </h:panelGroup>
+        </h:form>
+    </ui:define>
+
+</ui:composition>
+
+</html>
