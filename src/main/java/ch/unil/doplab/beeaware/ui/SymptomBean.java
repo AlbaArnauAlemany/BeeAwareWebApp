@@ -6,6 +6,7 @@ import jakarta.annotation.PostConstruct;
 import jakarta.enterprise.context.SessionScoped;
 import jakarta.faces.application.FacesMessage;
 import jakarta.faces.context.FacesContext;
+import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 import lombok.*;
@@ -13,8 +14,9 @@ import lombok.*;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Date;
 
-@SessionScoped
+@ViewScoped
 @Named
 @Data
 @NoArgsConstructor
@@ -70,27 +72,15 @@ public class SymptomBean implements Serializable {
     }
 
     public void updateReactionName() {
+        System.out.println("Slider updated! Reaction Value: " + reactionValue);
         switch (reactionValue) {
-            case 0:
-                reactionName = "NO REACTION";
-                break;
-            case 1:
-                reactionName = "MILD REACTION";
-                break;
-            case 2:
-                reactionName = "MODERATE REACTION";
-                break;
-            case 3:
-                reactionName = "SEVERE REACTION";
-                break;
-            case 4:
-                reactionName = "VERY SEVERE REACTION";
-                break;
-            case 5:
-                reactionName = "EXTREME REACTION";
-                break;
-            default:
-                reactionName = "UNKNOWN REACTION";
+            case 0: reactionName = "NO REACTION"; break;
+            case 1: reactionName = "MILD REACTION"; break;
+            case 2: reactionName = "MODERATE REACTION"; break;
+            case 3: reactionName = "SEVERE REACTION"; break;
+            case 4: reactionName = "VERY SEVERE REACTION"; break;
+            case 5: reactionName = "EXTREME REACTION"; break;
+            default: reactionName = "UNKNOWN REACTION";
         }
         System.out.println("Updated Reaction Name: " + reactionName);
     }
@@ -100,14 +90,17 @@ public class SymptomBean implements Serializable {
         updateReactionName();
     }
 
-    public Symptom registerSymptoms() {
+    public boolean registerSymptoms() {
         try {
-            registeredSymptoms = beezzerData.getTheService().getSymptomService().createSymptom(reactionValue, antihistamine, beezzerId);
+            registeredSymptoms = new Symptom(beezzerId, reactionValue, antihistamine, new Date());
+            boolean set = beezzerData.getTheService().getSymptomService().addSymptom(registeredSymptoms);
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Success", "Symptoms registered successfully!"));
+            symptomInfo = getSymptomForDate(beezzerId, date);
+            return set;
         } catch (Exception e) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Failed to register symptoms."));
+            return false;
         }
-        return null;
     }
 
     public SymptomsDTO getSymptomForDate(Long beezzerId, String date) {

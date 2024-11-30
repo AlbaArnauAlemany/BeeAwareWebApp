@@ -69,7 +69,7 @@
                     <h:panelGroup id="symptomPanel" rendered="#{not empty symptomBean.symptomInfo}">
                             <div class="pollen-card">
                                 <h3 class="pollen-title">Today's Symptoms</h3>
-                                <p class="pollen-index">#{symptomBean.symptomInfo.level}</p>
+                                <p class="pollen-index">#{symptomBean.symptomInfo.reaction}</p>
                             </div>
                     </h:panelGroup>
                     <h:panelGroup rendered="#{empty symptomBean.symptomInfo}">
@@ -78,28 +78,27 @@
                 </h:form>
                 <p:commandButton icon="pi pi-pen-to-square" type="button" style="color: #000000" onclick="PF('symptoms').show()" styleClass="rounded-button ui-button-outlined" />
             </div>
+            <div align="center">
+                <p:sidebar widgetVar="symptoms" position="bottom" styleClass="custom-sidebar">
+                    <h3>Register Symptoms</h3>
+                    <h4 class="mt-0">How are you feeling today?</h4>
+                    <h:panelGrid columns="1" style="margin-bottom: 10px">
 
-            <h:form id="symptomForm">
-                <div align="center">
-                    <p:sidebar widgetVar="symptoms" position="bottom" styleClass="custom-sidebar">
-                        <h3>Register Symptoms</h3>
-                        <h4 class="mt-0">How are you feeling today?</h4>
-                        <h:panelGrid columns="1" style="margin-bottom: 10px">
-
+                        <h:form id="symptomForm">
                             <h:outputText id="reactionLabel" value="#{symptomBean.reactionName}" style="font-weight: bold;"/>
 
-                            <p:slider for="reactionSlider" minValue="0" maxValue="5" step="1" value="#{symptomBean.reactionValue}" style="width: 300px" >
-                                <p:ajax event="slideEnd" listener="#{symptomBean.updateReactionName}" update=":symptomForm:reactionLabel" />
-                            </p:slider>
+<!--                            <p:slider id="reactionSlider" minValue="0" maxValue="5" step="1" value="#{symptomBean.reactionValue}" style="width: 300px" >-->
+<!--                                <p:ajax event="slideEnd" listener="#{symptomBean.updateReactionName()}" process="@this" update=":symptomForm:reactionLabel" />-->
+<!--                            </p:slider>-->
 
                             <p:selectBooleanCheckbox id="antihistamineCheckbox" value="#{symptomBean.antihistamine}" itemLabel="Took Antihistamine" />
 
-                            <p:commandButton id="registerSymptoms" icon="pi pi-check" value="Register Symptoms" action="#{symptomBean.registerSymptoms}" update="message @form symptomCard:symptomPanel" process="@this" style="color: #31a2d5" />
+                            <p:commandButton id="registerSymptoms" icon="pi pi-check" value="Register Symptoms" action="#{symptomBean.registerSymptoms}" update="message symptomCard:symptomPanel" style="color: #31a2d5" />
+                        </h:form>
 
-                        </h:panelGrid>
-                    </p:sidebar>
-                </div>
-            </h:form>
+                    </h:panelGrid>
+                </p:sidebar>
+            </div>
         </h:body>
     </ui:define>
 </ui:composition>

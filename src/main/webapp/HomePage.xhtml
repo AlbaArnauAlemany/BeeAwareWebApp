@@ -9,13 +9,14 @@
 
 <ui:composition template="templates/BeezzerTemplate.xhtml">
 
+    <h:graphicImage value="images/outdoor.jpg" class="full-background" alt="Background" />
+
     <ui:define name="title">Beezzer | Profile</ui:define>
 
     <ui:define name="section-title">Welcome #{beezzerData.username}</ui:define>
 
     <ui:define name="section-content">
-        <h:graphicImage class="card" width="180" value="/images/outdoor.jpg" style="background-size: cover; padding: 20px; border-radius: 8px;"/>
-        <div>
+        <div class="tab-view-container">
         <h5 class="text-shadow-yellow">Pollenic Allergy Monitoring Platform</h5>
             <p:tabView dynamic="true" cache="true">
                 <f:facet name="actions">
@@ -45,7 +46,7 @@
                 </p:tab>
             </p:tabView>
             <div style="margin-top: 20px; text-align: center;">
-                <p:commandButton value="Start Tracking Now" action="Dashboard.xhtml" styleClass="ui-button-primary" style="font-size: 16px; padding: 10px 20px;" />
+                <p:commandButton value="Start Tracking Now" action="Dashboard.xhtml?faces-redirect=true" styleClass="ui-button-raised ui-button-warning ui-button-flat" />
             </div>
         </div>
     </ui:define>

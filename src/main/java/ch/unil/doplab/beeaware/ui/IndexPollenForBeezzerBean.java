@@ -5,6 +5,7 @@ import jakarta.annotation.PostConstruct;
 import jakarta.enterprise.context.SessionScoped;
 import jakarta.faces.application.FacesMessage;
 import jakarta.faces.context.FacesContext;
+import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 import lombok.AllArgsConstructor;
@@ -18,14 +19,13 @@ import java.time.format.DateTimeFormatter;
 import java.util.Collections;
 import java.util.List;
 
-@SessionScoped
+@ViewScoped
 @Named
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class IndexPollenForBeezzerBean implements Serializable {
-    // private static final long serialVersionUID = 1L;
 
     @Inject
     BeezzerData beezzerData;
@@ -106,11 +106,12 @@ public class IndexPollenForBeezzerBean implements Serializable {
                 break;
             }
         }
+        checkAndSetMessage();
         System.out.println("[checkAllIndexesEmpty] All indexes are empty.");
     }
 
     public void checkAndSetMessage() {
-        if (noIndexCharge) {
+        if (true) {
             FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO,
                     "Lucky day!",
                     "There is no pollen in the air today! Enjoy the outdoors and take a deep breath of fresh air!");

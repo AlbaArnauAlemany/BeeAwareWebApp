@@ -15,24 +15,15 @@ public class SymptomService {
 
     private WebTarget symptomTarget;
 
-    public Symptom createSymptom(int reactionValue, boolean antihistamine, Long beezzerId) {
-        WebTarget targetWithParams = symptomTarget
-                .path("create/" + beezzerId.toString())
-                .queryParam("reaction", reactionValue)
-                .queryParam("antihistamine", antihistamine);
-
-        try (Response response = targetWithParams
-                .request(MediaType.APPLICATION_JSON)
-                .post(Entity.json(null))) {
-
-            if (response.getStatus() == 200) {
-                return response.readEntity(Symptom.class);
-            } else {
-                throw new RuntimeException("Sorry, we couldn't register the symptom: " + response.getStatusInfo().getReasonPhrase());
-            }
+    public boolean addSymptom(Symptom symptom) {
+        try {
+            return symptomTarget
+                    .path("add")
+                    .request(MediaType.APPLICATION_JSON)
+                    .post(Entity.entity(symptom, MediaType.APPLICATION_JSON), Boolean.class);
         } catch (Exception e) {
-            // Handle the exception if needed (e.g., logging the error)
-            throw new RuntimeException("Error occurred while creating symptom: " + e.getMessage(), e);
+            System.out.println("Sorry, we couldn't add the symptom: " + e.getMessage());
+            return false;
         }
     }
 
