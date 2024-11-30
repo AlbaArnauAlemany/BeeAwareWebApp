@@ -237,7 +237,23 @@ public class BeezzerData extends Beezzer {
     }
 
     public String goToSummary() {
-
+        pollen = pickListView.getPollens().getTarget();
+        System.out.println("npa : " + npa);
+        System.out.println("country : " + country);
+        if(theService.getBeezzerService().checkBeezzerUsername(username)){
+            FacesContext.getCurrentInstance().addMessage(null,
+                    new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Username already exists"));
+            return null;
+        }
+        Location locationTemp = coordinateBean.getCoordinate(npa, country);
+        if(locationTemp != null){
+            location = coordinateBean.getCoordinate(npa, country);
+            return "Summary.xhtml?faces-redirect=true";
+        } else {
+            FacesContext.getCurrentInstance().addMessage(null,
+                    new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Location information is incomplete or false. Please verify the NPA and country."));
+            return null;
+        }
     }
 
     public void updateChartModel(String selectedAllergen, String startDate, String endDate) {
