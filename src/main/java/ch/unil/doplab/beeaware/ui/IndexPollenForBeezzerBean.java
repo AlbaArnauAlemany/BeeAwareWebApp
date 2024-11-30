@@ -37,6 +37,7 @@ public class IndexPollenForBeezzerBean implements Serializable {
 
     @PostConstruct
     public void init() {
+        System.out.println("INIT indexPollenForBeezer");
         noIndexCharge = false;
 
         // Check for not null injects

@@ -25,7 +25,6 @@ public class SymptomBean implements Serializable {
 
     @Inject
     BeezzerData beezzerData;
-
     private String date;
     private Long beezzerId;
     private int reactionValue = 0;

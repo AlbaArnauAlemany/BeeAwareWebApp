@@ -15,6 +15,12 @@
 
     <ui:define name="section-content">
         <p:growl id="message" showDetail="true" life="3000"/>
+        <h:outputScript>
+            $(document).ready(function () {
+                initMessages();
+            });
+        </h:outputScript>
+
 
         <h:head>
             <!-- Include the CSS stylesheet with versioning -->
@@ -23,9 +29,10 @@
             </h:outputStylesheet>
         </h:head>
         <h:body>
-<!--            <p:remoteCommand name="checkPollenIndex"-->
-<!--                             actionListener="#{indexPollenForBeezzerBean.checkAndSetMessage()}"-->
-<!--                             update="message" />-->
+            <p:remoteCommand
+                    name="initMessages"
+                    action="#{indexPollenForBeezzerBean.checkAndSetMessage()}"
+                    update="message" />
 
             <p:commandButton id="updateButton" icon="pi pi-info-circle" action="#{indexPollenForBeezzerBean.checkAndSetMessage()}" styleClass="rounded-button ui-button-warning" update="message"/>
 
