@@ -2,6 +2,14 @@ body {
     font-family: "Lato", sans-serif;
 }
 
+.full-background {
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    height: 100vh;
+    background-color: #fddfa1;
+}
+
 .sidenav {
     height: 100%;
     width: 160px;
@@ -9,27 +17,32 @@ body {
     z-index: 1;
     top: 0;
     left: 0;
-    background-color: #111;
+    background-color: #ffd700;
     overflow-x: hidden;
     padding-top: 20px;
+    color: white;
+    display: flex;
+    flex-direction: column;
 }
 
 .sidenav a {
     padding: 6px 8px 6px 16px;
     text-decoration: none;
     font-size: 25px;
-    color: #818181;
+    color: #fff;
     display: block;
 }
 
 .sidenav a:hover {
-    color: #f1f1f1;
+    color: #ffa500;
 }
 
 .main {
-    margin-left: 160px; /* Same as the width of the sidenav */
-    font-size: 28px; /* Increased text to enable scrolling */
+    margin-left: 160px;
+    font-size: 28px;
     padding: 0px 10px;
+    height: 100vh; /* Ensure the main content takes full height */
+    overflow-y: auto;
 }
 
 @media screen and (max-height: 450px) {
@@ -41,22 +54,8 @@ body {
         font-size: 18px;
     }
 }
-/* ----------------------------------- */
 
-.full-background {
-    position: absolute;
-    /*background-size: cover;*/
-    /*background-repeat: no-repeat;*/
-    /*background-attachment: fixed;*/
-    /*margin: 0;*/
-    /*padding: 0;*/
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    z-index: -1;
-}
+/* ----------------------------------- */
 
 .tab-view-container {
     background-color: white;
@@ -72,16 +71,16 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh; /* Full viewport height for vertical centering */
+    height: 100vh;
 }
 
 .login-panel {
-    width: 350px; /* Adjust width based on your design */
+    width: 350px;
     padding: 20px;
-    background-color: #f9f9f9; /* Optional: customize background color */
-    border-radius: 8px; /* Optional: rounded corners */
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Optional: subtle shadow */
-    text-align: center; /* Center-align text inside panel */
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
 }
 
 /* ----------------------------------- */
@@ -89,10 +88,10 @@ body {
 .pollen-card {
     display: flex;
     flex-direction: column;
-    justify-content: space-between; /* Ensures content is spaced evenly */
+    justify-content: space-between;
     align-items: center;
-    width: 200px; /* Fixed width to ensure uniformity */
-    height: 250px; /* Fixed height for uniform card sizes */
+    width: 200px;
+    height: 250px;
     padding: 15px;
     margin: 20px;
     border: 1px solid #ddd;
@@ -105,7 +104,6 @@ body {
 
 .pollen-title {
     font-size: 1.4em;
-    word-wrap: break-word;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: normal;
@@ -123,12 +121,12 @@ body {
 }
 
 .custom-progress-bar {
-    height: 20px; /* Set a specific height */
-    border-radius: 10px; /* Rounded corners */
+    height: 30px;
+    border-radius: 25px; /* Rounded corners */
 }
 
 .custom-progress-bar .ui-progressbar-value {
-    border-radius: 10px; /* Rounded corners for the filled part */
+    border-radius: 25px;
 }
 
 .custom-progress-bar.none .ui-progressbar-value {
@@ -159,9 +157,79 @@ body {
     bottom: 0 !important;
     overflow: auto;
     padding: 20px;
+    font-size: 1.2em;
+}
+
+.custom-sidebar h2 {
+    font-size: 2em;
 }
 
 .text-shadow-yellow {
-    color: #efe396;
-    text-shadow: 1px 1px 2px black;
+    color: #ffd700;
+    text-shadow: 1px 1px 2px #818181;
+    font-size: 30px;
+    font-family: 'Arial', sans-serif;
+    font-weight: bold;
+}
+
+/* ----------------------------------- */
+
+.symptom-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* Ensures content is spaced evenly */
+    align-items: center;
+    width: 180px;
+    height: 220px;
+    padding: 10px;
+    margin: 15px;
+    border: 1px solid #91d2da;
+    border-radius: 8px;
+    background-color: #c4e7f1;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    box-sizing: border-box;
+}
+
+.pollen-title {
+    font-size: 1.1em;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: normal;
+    height: 3em;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+}
+
+.pollen-index {
+    font-size: 0.8em;
+    color: #575656;
+    margin-top: 5px;
+    font-weight: normal;
+}
+
+.custom-divider {
+    border: none;
+    padding: 12px 20px;
+    margin: 20px 0;
+    border-radius: 8px;
+}
+
+.custom-divider .inline-flex {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.custom-divider i.pi {
+    font-size: 35px;
+    color: #4ca3af;
+}
+
+.custom-divider b {
+    font-size: 1.2em;
+    color: #4ca3af;
+    font-weight: bold;
+    margin-left: 10px;
 }

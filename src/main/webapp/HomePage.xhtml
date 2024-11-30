@@ -9,8 +9,6 @@
 
 <ui:composition template="templates/BeezzerTemplate.xhtml">
 
-    <h:graphicImage value="images/outdoor.jpg" class="full-background" alt="Background" />
-
     <ui:define name="title">Beezzer | Profile</ui:define>
 
     <ui:define name="section-title">Welcome #{beezzerData.username}</ui:define>
@@ -22,7 +20,7 @@
                 <f:facet name="actions">
                     <span class="text-shadow-yellow">Home Page</span>
                 </f:facet>
-                <p:tab title="Overview of the Platform's Purpose">
+                <p:tab title="Overview of the Platform's Purpose" class="">
                     <p class="m-0">
                         Allergies affect a large portion of the population, and their symptoms can be exacerbated by various environmental factors,
                         including weather conditions. <br/><br/>The platform's goal is to provide users with a channel for information on high-risk
@@ -45,8 +43,8 @@
                     </p>
                 </p:tab>
             </p:tabView>
-            <div style="margin-top: 20px; text-align: center;">
-                <p:commandButton value="Start Tracking Now" action="Dashboard.xhtml?faces-redirect=true" styleClass="ui-button-raised ui-button-warning ui-button-flat" />
+            <div class="footer">
+                <p:commandButton value="Start Tracking Now" action="Dashboard.xhtml?faces-redirect=true" styleClass="ui-button-raised ui-button-warning" icon="pi pi-pen-to-square" />
             </div>
         </div>
     </ui:define>

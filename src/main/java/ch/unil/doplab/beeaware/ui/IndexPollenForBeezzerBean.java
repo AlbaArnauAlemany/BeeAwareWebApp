@@ -112,14 +112,18 @@ public class IndexPollenForBeezzerBean implements Serializable {
     }
 
     public void checkAndSetMessage() {
-        if (true) {
+        if (noIndexCharge) {
             FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO,
                     "Lucky day!",
                     "There is no pollen in the air today! Enjoy the outdoors and take a deep breath of fresh air!");
             FacesContext.getCurrentInstance().addMessage(null, message);
             System.out.println("Growl message added: " + message.getDetail());
         } else {
-            System.out.println("No growl message needed.");
+            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                    "Take your tissues!",
+                    "There is pollen in the air, and it might trigger a reaction!");
+            FacesContext.getCurrentInstance().addMessage(null, message);
+            System.out.println("Growl message added: " + message.getDetail());
         }
     }
 

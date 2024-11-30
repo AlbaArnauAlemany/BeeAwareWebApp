@@ -34,12 +34,10 @@
                     action="#{indexPollenForBeezzerBean.checkAndSetMessage()}"
                     update="message" />
 
-            <p:commandButton id="updateButton" icon="pi pi-info-circle" action="#{indexPollenForBeezzerBean.checkAndSetMessage()}" styleClass="rounded-button ui-button-warning" update="message"/>
-
             <h:form id ="location">
             <div style="display: flex; justify-content: flex-end; width: 100%;">
                 <p>
-                    <i class="pi pi-map-marker" style="color: #818181; margin-right: 10px;"></i>
+                    <i class="pi pi-map-marker" style="color: #818181; margin-right: 10px; font-size: 30px;"></i>
                     <strong style ="color: #818181; font-size: 30px">#{beezzerData.cityName}, #{beezzerData.country}</strong>
                 </p>
             </div>
@@ -64,17 +62,23 @@
                 </h:panelGroup>
             </div>
 
-            <p:divider align="left">
+            <p:divider align="left" class="custom-divider">
                 <div class="inline-flex align-items-center">
-                    <i class="pi pi-face-smile mr-2"/>
+                    <i class="pi pi-sun mr-2"></i>
                     <b>Symptoms</b>
                 </div>
             </p:divider>
 
+            <div style="display: flex; justify-content: center; width: 100%; margin-top: 20px;">
+                <p:commandButton icon="pi pi-pen-to-square" type="button" style="color: #76a8aa"
+                                 onclick="PF('symptoms').show()"
+                                 styleClass="rounded-button ui-button-outlined" />
+            </div>
+
             <div style="display: flex; flex-wrap: wrap; justify-content: center; width: 100%;">
                 <h:form id="symptomCard">
                     <h:panelGroup id="symptomPanel" rendered="#{not empty symptomBean.symptomInfo}">
-                            <div class="pollen-card">
+                            <div class="symptom-card">
                                 <h3 class="pollen-title">Today's Symptoms</h3>
                                 <p class="pollen-index">#{symptomBean.symptomInfo.reaction}</p>
                             </div>
@@ -83,7 +87,6 @@
                         <p>No symptoms registered yet. Please register your symptoms.</p>
                     </h:panelGroup>
                 </h:form>
-                <p:commandButton icon="pi pi-pen-to-square" type="button" style="color: #000000" onclick="PF('symptoms').show()" styleClass="rounded-button ui-button-outlined" />
             </div>
             <div align="center">
                 <p:sidebar widgetVar="symptoms" position="bottom" styleClass="custom-sidebar">
@@ -95,7 +98,7 @@
                             <h:outputText id="reactionLabel" value="#{symptomBean.reactionName}" style="font-weight: bold;"/>
 
 <!--                            <p:slider id="reactionSlider" minValue="0" maxValue="5" step="1" value="#{symptomBean.reactionValue}" style="width: 300px" >-->
-<!--                                <p:ajax event="slideEnd" listener="#{symptomBean.updateReactionName()}" process="@this" update=":symptomForm:reactionLabel" />-->
+<!--                                <p:ajax event="slideEnd" listener="#{symptomBean.updateReactionName}" update=":symptomForm:reactionLabel" />-->
 <!--                            </p:slider>-->
 
                             <p:selectBooleanCheckbox id="antihistamineCheckbox" value="#{symptomBean.antihistamine}" itemLabel="Took Antihistamine" />

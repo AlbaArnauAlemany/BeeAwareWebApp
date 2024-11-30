@@ -10,6 +10,7 @@ import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 import lombok.*;
+import org.primefaces.event.SlideEndEvent;
 
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -70,7 +71,8 @@ public class SymptomBean implements Serializable {
         this.antihistamine = false;
     }
 
-    public void updateReactionName() {
+    public void updateReactionName(SlideEndEvent event) {
+        reactionValue = (int) event.getValue();
         System.out.println("Slider updated! Reaction Value: " + reactionValue);
         switch (reactionValue) {
             case 0: reactionName = "NO REACTION"; break;
@@ -82,11 +84,6 @@ public class SymptomBean implements Serializable {
             default: reactionName = "UNKNOWN REACTION";
         }
         System.out.println("Updated Reaction Name: " + reactionName);
-    }
-
-    public void setReactionValue(int reactionValue) {
-        this.reactionValue = reactionValue;
-        updateReactionName();
     }
 
     public boolean registerSymptoms() {
