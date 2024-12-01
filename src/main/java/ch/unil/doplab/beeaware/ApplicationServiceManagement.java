@@ -32,6 +32,7 @@ public class ApplicationServiceManagement {
     private CoordinateService coordinateService;
     private IndexPollenForBeezzerService indexPollenForBeezzerService;
     private SymptomService symptomService;
+    private ExcelService excelService;
     private Client client;
 
     private PickListView pickListView;
@@ -49,6 +50,7 @@ public class ApplicationServiceManagement {
         coordinateService = new CoordinateService(client.target(BASE_URL).path("geo"));
         indexPollenForBeezzerService = new IndexPollenForBeezzerService(client.target(BASE_URL).path("forecast"));
         symptomService = new SymptomService(client.target(BASE_URL).path("symptom"));
+        excelService = new ExcelService(client.target(BASE_URL).path("excel"));
         System.out.println("Utilis API Key length: " + utilis.getApikey().length());
     }
 

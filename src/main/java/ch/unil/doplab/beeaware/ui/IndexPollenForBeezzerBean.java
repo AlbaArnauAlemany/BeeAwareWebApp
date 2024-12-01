@@ -2,16 +2,12 @@ package ch.unil.doplab.beeaware.ui;
 
 import ch.unil.doplab.beeaware.Domain.DTO.PollenInfoDTO;
 import jakarta.annotation.PostConstruct;
-import jakarta.enterprise.context.SessionScoped;
 import jakarta.faces.application.FacesMessage;
 import jakarta.faces.context.FacesContext;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -21,8 +17,7 @@ import java.util.List;
 
 @ViewScoped
 @Named
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class IndexPollenForBeezzerBean implements Serializable {

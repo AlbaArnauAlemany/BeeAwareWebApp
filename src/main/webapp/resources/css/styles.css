@@ -1,3 +1,4 @@
+/* ------------Global--Related--Styles-------------------- */
 body {
     font-family: "Lato", sans-serif;
 }
@@ -55,17 +56,25 @@ body {
     }
 }
 
-/* ----------------------------------- */
-
-.tab-view-container {
-    background-color: white;
-    border-radius: 8px;
-    padding: 20px;
-    opacity: 0.9;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+.text-shadow-yellow {
+    color: #ffd700;
+    text-shadow: 1px 1px 2px #818181;
+    font-size: 30px;
+    font-family: 'Arial', sans-serif;
+    font-weight: bold;
 }
 
-/* ----------------------------------- */
+/* ------------Tab-view-container--Related--Styles-------------------- */
+
+.tab-view-container {
+    background-color: white !important;
+    border-radius: 8px !important;
+    padding: 20px !important;
+    opacity: 0.9 !important;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2) !important;
+}
+
+/* ------------Login--Related--Styles-------------------- */
 
 .center-panel {
     display: flex;
@@ -83,7 +92,7 @@ body {
     text-align: center;
 }
 
-/* ----------------------------------- */
+/* ------------Pollen--Related--Styles-------------------- */
 
 .pollen-card {
     display: flex;
@@ -120,6 +129,8 @@ body {
     font-weight: normal;
 }
 
+/* ------------Custom--Progress-bar--Related--Styles-------------------- */
+
 .custom-progress-bar {
     height: 30px;
     border-radius: 25px; /* Rounded corners */
@@ -148,31 +159,60 @@ body {
     background-color: #7f00ff !important; /* Very high pollen */
 }
 
-/* ----------------------------------- */
+/* ------------Custom--Sidebar--for--Dashboard--Related--Styles-------------------- */
 
 .custom-sidebar {
     height: 70% !important;
     width: 100% !important;
     background-color: #fff !important;
     bottom: 0 !important;
-    overflow: auto;
-    padding: 20px;
-    font-size: 1.2em;
+    overflow: auto !important;
+    padding: 20px !important;
+    font-size: 1.2em !important;
+    border-radius: 10px 10px 0 0 !important;
+    box-shadow: 0px -2px 10px rgba(0, 0, 0, 0.1) !important;
 }
 
-.custom-sidebar h2 {
-    font-size: 2em;
+.sidebar-title {
+    font-size: 28px !important;
+    font-weight: bold !important;
+    color: #2c3e50 !important;
+    margin-bottom: 10px !important;
 }
 
-.text-shadow-yellow {
-    color: #ffd700;
-    text-shadow: 1px 1px 2px #818181;
-    font-size: 30px;
-    font-family: 'Arial', sans-serif;
-    font-weight: bold;
+.sidebar-subtitle {
+    font-size: 20px !important;
+    color: #7f8c8d !important;
+    margin-bottom: 15px !important;
 }
 
-/* ----------------------------------- */
+.register-button {
+    background-color: #91d2da !important;
+    color: #fff !important;
+    box-shadow: 0px -2px 10px rgba(0, 0, 0, 0.1) !important;
+    border: none !important;
+    font-size: 15px !important;
+    border-radius: 10px !important;
+    margin-top: 10px !important;
+    width: auto !important;
+    padding: 6px !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+}
+
+.register-button:hover {
+    background-color: #68a6ae !important;
+}
+
+.custom-checkbox {
+    margin-top: 15px!important;
+}
+
+.symptom-grid {
+    margin-bottom: 20px;
+}
+
+/* ------------Symptom--Card--Related--Styles-------------------- */
 
 .symptom-card {
     display: flex;
@@ -191,7 +231,7 @@ body {
     box-sizing: border-box;
 }
 
-.pollen-title {
+.symptom-title {
     font-size: 1.1em;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -202,12 +242,14 @@ body {
     -webkit-box-orient: vertical;
 }
 
-.pollen-index {
+.symptom-index {
     font-size: 0.8em;
     color: #575656;
     margin-top: 5px;
     font-weight: normal;
 }
+
+/* ------------Custom--Divider--Related--Styles-------------------- */
 
 .custom-divider {
     border: none;

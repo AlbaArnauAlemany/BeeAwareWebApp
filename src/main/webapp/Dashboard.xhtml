@@ -37,7 +37,7 @@
             <h:form id ="location">
             <div style="display: flex; justify-content: flex-end; width: 100%;">
                 <p>
-                    <i class="pi pi-map-marker" style="color: #818181; margin-right: 10px; font-size: 30px;"></i>
+                    <i class="pi pi-map-marker" style="color: #818181; margin-right: 10px; font-size: 30px;"/>
                     <strong style ="color: #818181; font-size: 30px">#{beezzerData.cityName}, #{beezzerData.country}</strong>
                 </p>
             </div>
@@ -64,7 +64,7 @@
 
             <p:divider align="left" class="custom-divider">
                 <div class="inline-flex align-items-center">
-                    <i class="pi pi-sun mr-2"></i>
+                    <i class="pi pi-sun mr-2"/>
                     <b>Symptoms</b>
                 </div>
             </p:divider>
@@ -79,8 +79,18 @@
                 <h:form id="symptomCard">
                     <h:panelGroup id="symptomPanel" rendered="#{not empty symptomBean.symptomInfo}">
                             <div class="symptom-card">
-                                <h3 class="pollen-title">Today's Symptoms</h3>
-                                <p class="pollen-index">#{symptomBean.symptomInfo.reaction}</p>
+                                <h3 class="symptom-title">Today's Symptoms</h3>
+                                <p class="symptom-index"/>
+
+                                <!-- PrimeFaces ProgressBar -->
+                                <p:progressBar
+                                        value="#{symptomBean.symptomInfo.reaction * 20}"
+                                        maxValue="100"
+                                        styleClass="custom-progress-bar #{symptomBean.getSymptomClass()}"
+                                        style="height: 20px; width: 100%;"
+                                        labelTemplate=""/>
+
+                                <p class="pollen-index">Index: #{symptomBean.symptomInfo.reaction}</p>
                             </div>
                     </h:panelGroup>
                     <h:panelGroup rendered="#{empty symptomBean.symptomInfo}">
@@ -90,23 +100,29 @@
             </div>
             <div align="center">
                 <p:sidebar widgetVar="symptoms" position="bottom" styleClass="custom-sidebar">
-                    <h3>Register Symptoms</h3>
-                    <h4 class="mt-0">How are you feeling today?</h4>
-                    <h:panelGrid columns="1" style="margin-bottom: 10px">
+                    <h:form id="symptomForm">
+                        <h3 class="sidebar-title">Register Symptoms</h3>
+                        <h4 class="sidebar-subtitle">How are you feeling today?</h4>
 
-                        <h:form id="symptomForm">
-                            <h:outputText id="reactionLabel" value="#{symptomBean.reactionName}" style="font-weight: bold;"/>
+                        <h:panelGrid columns="1" styleClass="symptom-grid">
+                            <div style="display: flex; align-items: center; justify-content: space-between;">
+                                <p:selectOneMenu id="reaction" value="#{symptomBean.reactionValue}" style="width:150px">
+                                    <f:selectItem itemLabel="No Reaction" itemValue="0"/>
+                                    <f:selectItem itemLabel="Mild Reaction" itemValue="1"/>
+                                    <f:selectItem itemLabel="Moderate Reaction" itemValue="2"/>
+                                    <f:selectItem itemLabel="Strong Reaction" itemValue="3"/>
+                                    <f:selectItem itemLabel="Severe Reaction" itemValue="4"/>
+                                    <f:selectItem itemLabel="Very Severe Reaction" itemValue="5"/>
+                                </p:selectOneMenu>
 
-<!--                            <p:slider id="reactionSlider" minValue="0" maxValue="5" step="1" value="#{symptomBean.reactionValue}" style="width: 300px" >-->
-<!--                                <p:ajax event="slideEnd" listener="#{symptomBean.updateReactionName}" update=":symptomForm:reactionLabel" />-->
-<!--                            </p:slider>-->
+                                <p:commandButton icon="pi pi-sync" update="message" action="#{symptomBean.updateReactionName}" styleClass="rounded-button" style="margin-left: 10px;"/>
+                            </div>
+                        </h:panelGrid>
 
-                            <p:selectBooleanCheckbox id="antihistamineCheckbox" value="#{symptomBean.antihistamine}" itemLabel="Took Antihistamine" />
+                        <p:selectBooleanCheckbox id="antihistamineCheckbox" value="#{symptomBean.antihistamine}" itemLabel="Took Antihistamine" styleClass="custom-checkbox"/>
 
-                            <p:commandButton id="registerSymptoms" icon="pi pi-check" value="Register Symptoms" action="#{symptomBean.registerSymptoms}" update="message symptomCard:symptomPanel" style="color: #31a2d5" />
-                        </h:form>
-
-                    </h:panelGrid>
+                        <p:commandButton id="registerSymptoms" icon="pi pi-save" value="Save Symptoms" action="#{symptomBean.registerSymptoms}" update="message symptomCard:symptomPanel" styleClass="register-button" />
+                    </h:form>
                 </p:sidebar>
             </div>
         </h:body>

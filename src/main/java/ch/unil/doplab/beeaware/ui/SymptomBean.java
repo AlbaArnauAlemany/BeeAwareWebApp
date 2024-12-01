@@ -1,9 +1,9 @@
 package ch.unil.doplab.beeaware.ui;
 
+import ch.unil.doplab.beeaware.Domain.DTO.PollenInfoDTO;
 import ch.unil.doplab.beeaware.Domain.DTO.SymptomsDTO;
 import ch.unil.doplab.beeaware.Domain.Symptom;
 import jakarta.annotation.PostConstruct;
-import jakarta.enterprise.context.SessionScoped;
 import jakarta.faces.application.FacesMessage;
 import jakarta.faces.context.FacesContext;
 import jakarta.faces.view.ViewScoped;
@@ -18,7 +18,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
 @ViewScoped
-@Named
+@Named("symptomBean")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -30,12 +30,13 @@ public class SymptomBean implements Serializable {
     private Long beezzerId;
     private int reactionValue = 0;
     private boolean antihistamine;
-    private String reactionName = "NO REACTION";
+    private String reactionName = "No Reaction";
     private SymptomsDTO symptomInfo;
     private Symptom registeredSymptoms;
 
     @PostConstruct
     public void init() {
+        System.out.println("PostConstruct called for IndexPollenForBeezzerBean");
         System.out.println("Initialized with Reaction Value: " + reactionValue);
         System.out.println("Initialized with Reaction Name: " + reactionName);
 
@@ -71,17 +72,35 @@ public class SymptomBean implements Serializable {
         this.antihistamine = false;
     }
 
-    public void updateReactionName(SlideEndEvent event) {
-        reactionValue = (int) event.getValue();
+    public void updateReactionName() {
+        System.out.println("Inside updateReactionName method...");
+        if (FacesContext.getCurrentInstance().getExternalContext().getRequestMap().containsKey("symptomBean")) {
+            System.out.println("SymptomBean exists!");
+        } else {
+            System.out.println("SymptomBean is NULL!");
+        }
         System.out.println("Slider updated! Reaction Value: " + reactionValue);
         switch (reactionValue) {
-            case 0: reactionName = "NO REACTION"; break;
-            case 1: reactionName = "MILD REACTION"; break;
-            case 2: reactionName = "MODERATE REACTION"; break;
-            case 3: reactionName = "SEVERE REACTION"; break;
-            case 4: reactionName = "VERY SEVERE REACTION"; break;
-            case 5: reactionName = "EXTREME REACTION"; break;
-            default: reactionName = "UNKNOWN REACTION";
+            case 0: reactionName = "No Reaction";
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "You are feeling", "no allergic reaction today!"));
+                break;
+            case 1: reactionName = "Mild Reaction";
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "You are feeling", "a mild allergic reaction today!"));
+                break;
+            case 2: reactionName = "Moderate Reaction";
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "You are feeling", "a moderate allergic reaction today!"));
+                break;
+            case 3: reactionName = "Strong Reaction";
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "You are feeling", "a strong allergic reaction today!"));
+                break;
+            case 4: reactionName = "Severe Reaction";
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "You are feeling", "a sever allergic reaction today!"));
+                break;
+            case 5: reactionName = "Very Severe Reaction";
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "You are feeling", "a very severe allergic reaction today!"));
+                break;
+            default: reactionName = "Unknown Reaction";
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Reaction not loaded properly", "How are you feeling today?"));
         }
         System.out.println("Updated Reaction Name: " + reactionName);
     }
@@ -110,5 +129,15 @@ public class SymptomBean implements Serializable {
             e.printStackTrace();
             return null;
         }
+    }
+
+    public String getSymptomClass() {
+        int index = symptomInfo.getReaction();
+        if (index == 0) return "none";
+        if (index == 1) return "very-low";
+        if (index == 2) return "low";
+        if (index == 3) return "medium";
+        if (index == 4) return "high";
+        return "very-high";
     }
 }
