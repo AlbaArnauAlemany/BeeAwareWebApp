@@ -64,16 +64,6 @@ body {
     font-weight: bold;
 }
 
-/* ------------Tab-view-container--Related--Styles-------------------- */
-
-.tab-view-container {
-    background-color: white !important;
-    border-radius: 8px !important;
-    padding: 20px !important;
-    opacity: 0.9 !important;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2) !important;
-}
-
 /* ------------Login--Related--Styles-------------------- */
 
 .center-panel {
@@ -217,10 +207,10 @@ body {
 .symptom-card {
     display: flex;
     flex-direction: column;
-    justify-content: space-between; /* Ensures content is spaced evenly */
+    justify-content: space-between;
     align-items: center;
     width: 180px;
-    height: 220px;
+    height: auto;
     padding: 10px;
     margin: 15px;
     border: 1px solid #91d2da;
@@ -236,6 +226,7 @@ body {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: normal;
+    word-wrap: break-word;
     height: 3em;
     display: -webkit-box;
     -webkit-line-clamp: 2;
@@ -252,7 +243,7 @@ body {
 /* ------------Custom--Divider--Related--Styles-------------------- */
 
 .custom-divider {
-    border: none;
+    border: #4ca3af;
     padding: 12px 20px;
     margin: 20px 0;
     border-radius: 8px;

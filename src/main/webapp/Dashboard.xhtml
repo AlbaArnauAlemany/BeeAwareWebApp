@@ -106,7 +106,7 @@
 
                         <h:panelGrid columns="1" styleClass="symptom-grid">
                             <div style="display: flex; align-items: center; justify-content: space-between;">
-                                <p:selectOneMenu id="reaction" value="#{symptomBean.reactionValue}" style="width:150px">
+                                <p:selectOneMenu id="reaction" value="#{symptomBean.reactionValue}" style="width:200px">
                                     <f:selectItem itemLabel="No Reaction" itemValue="0"/>
                                     <f:selectItem itemLabel="Mild Reaction" itemValue="1"/>
                                     <f:selectItem itemLabel="Moderate Reaction" itemValue="2"/>
@@ -114,14 +114,12 @@
                                     <f:selectItem itemLabel="Severe Reaction" itemValue="4"/>
                                     <f:selectItem itemLabel="Very Severe Reaction" itemValue="5"/>
                                 </p:selectOneMenu>
-
-                                <p:commandButton icon="pi pi-sync" update="message" action="#{symptomBean.updateReactionName}" styleClass="rounded-button" style="margin-left: 10px;"/>
                             </div>
                         </h:panelGrid>
 
                         <p:selectBooleanCheckbox id="antihistamineCheckbox" value="#{symptomBean.antihistamine}" itemLabel="Took Antihistamine" styleClass="custom-checkbox"/>
 
-                        <p:commandButton id="registerSymptoms" icon="pi pi-save" value="Save Symptoms" action="#{symptomBean.registerSymptoms}" update="message symptomCard:symptomPanel" styleClass="register-button" />
+                        <p:commandButton id="registerSymptoms" icon="pi pi-save" value="Save Symptoms" action="#{symptomBean.updateAndRegisterSymptoms}" update="message symptomCard:symptomPanel" styleClass="register-button"/>
                     </h:form>
                 </p:sidebar>
             </div>
