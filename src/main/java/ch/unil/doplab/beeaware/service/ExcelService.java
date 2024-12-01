@@ -14,7 +14,7 @@ public class ExcelService {
 
     private WebTarget excelTarget;
 
-    public boolean downloadExcelFile(Long beezzerId, String destinationPath) throws IOException {
+    public byte[] downloadExcelFile(Long beezzerId) throws IOException {
         try {
             Response response = excelTarget
                     .path("download/" + beezzerId)
@@ -24,24 +24,21 @@ public class ExcelService {
             if (response.getStatus() == Response.Status.OK.getStatusCode()) {
                 InputStream inputStream = response.readEntity(InputStream.class);
 
-                File file = new File(destinationPath);
-                try (OutputStream outputStream = new FileOutputStream(file)) {
-                    byte[] buffer = new byte[4096];
-                    int bytesRead;
-                    while ((bytesRead = inputStream.read(buffer)) != -1) {
-                        outputStream.write(buffer, 0, bytesRead);
-                    }
+                ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+                byte[] buffer = new byte[4096];
+                int bytesRead;
+
+                while ((bytesRead = inputStream.read(buffer)) != -1) {
+                    byteArrayOutputStream.write(buffer, 0, bytesRead);
                 }
 
-                System.out.println("Excel file downloaded successfully to " + destinationPath);
-                return true;
+                return byteArrayOutputStream.toByteArray();
             } else {
-                System.out.println("Failed to download Excel file. HTTP status code: " + response.getStatus());
-                return false;
+                throw new IOException("Failed to dowmload Excel file. " + response.getStatus());
             }
         } catch (Exception e) {
-            System.out.println("Error downloading Excel file. " + e.getMessage());
-            return false;
+            throw new IOException("Error downloading the Excel file. " + e.getMessage());
+
         }
     }
 }
