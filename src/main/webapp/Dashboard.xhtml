@@ -78,7 +78,8 @@
                     <h:panelGroup id="symptomPanel" rendered="#{not empty symptomBean.symptomInfo}">
                             <div class="symptom-card">
                                 <h3 class="symptom-title">Today's Symptoms</h3>
-                                <p class="symptom-index"/>
+
+                                <h:outputText value="💊" rendered="#{symptomBean.symptomInfo.antihistamine}" styleClass="center" />
 
                                 <!-- PrimeFaces ProgressBar -->
                                 <p:progressBar
@@ -88,7 +89,7 @@
                                         style="height: 20px; width: 100%;"
                                         labelTemplate=""/>
 
-                                <p class="pollen-index">Index: #{symptomBean.symptomInfo.reaction}</p>
+                                <p class="symptom-index">Index: #{symptomBean.symptomInfo.reaction}</p>
                             </div>
                     </h:panelGroup>
                     <h:panelGroup rendered="#{empty symptomBean.symptomInfo}">
