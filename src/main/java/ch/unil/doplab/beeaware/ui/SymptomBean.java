@@ -1,6 +1,5 @@
 package ch.unil.doplab.beeaware.ui;
 
-import ch.unil.doplab.beeaware.Domain.DTO.PollenInfoDTO;
 import ch.unil.doplab.beeaware.Domain.DTO.SymptomsDTO;
 import ch.unil.doplab.beeaware.Domain.Symptom;
 import jakarta.annotation.PostConstruct;
@@ -10,7 +9,6 @@ import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 import lombok.*;
-import org.primefaces.event.SlideEndEvent;
 
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -75,13 +73,10 @@ public class SymptomBean implements Serializable {
     }
 
     public void updateReactionName() {
-        System.out.println("Inside updateReactionName method...");
         if (FacesContext.getCurrentInstance().getExternalContext().getRequestMap().containsKey("symptomBean")) {
             System.out.println("SymptomBean exists!");
-        } else {
-            System.out.println("SymptomBean is NULL!");
-        }
-        System.out.println("Slider updated! Reaction Value: " + reactionValue);
+        } else { System.out.println("SymptomBean is NULL!"); }
+
         switch (reactionValue) {
             case 0: reactionName = "No Reaction";
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "You are feeling", "no allergic reaction today!"));

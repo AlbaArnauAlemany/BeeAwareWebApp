@@ -26,6 +26,7 @@
                     action="#{indexPollenForBeezzerBean.checkAndSetMessage()}"
                     update="message" />
 
+            <!-- Display Location of the User -->
             <h:form id ="location">
             <div style="display: flex; justify-content: flex-end; width: 90%;">
                 <p>
@@ -34,6 +35,8 @@
                 </p>
             </div>
             </h:form>
+
+            <!-- Pollen Cards -->
             <div style="display: flex; flex-wrap: wrap; justify-content: center; width: 100%;">
                 <h:panelGroup rendered="#{not empty indexPollenForBeezzerBean.pollenInfo}">
                     <ui:repeat value="#{indexPollenForBeezzerBean.pollenInfo}" var="pollenInfo">
@@ -54,6 +57,7 @@
                 </h:panelGroup>
             </div>
 
+            <!-- Divider betweeen Pollen Cards and Symptom Cards -->
             <p:divider align="left" >
                 <div class="inline-flex align-items-center">
                     <i class="pi pi-sun mr-2"/>
@@ -61,12 +65,14 @@
                 </div>
             </p:divider>
 
+            <!-- CommandButton to open Symptoms Registration Sidebar -->
             <div style="display: flex; justify-content: center; width: 100%; margin-top: 20px;">
                 <p:commandButton icon="pi pi-pen-to-square" type="button" style="color: #76a8aa"
                                  onclick="PF('symptoms').show()"
                                  styleClass="rounded-button ui-button-outlined" />
             </div>
 
+            <!-- Symptom Card -->
             <div style="display: flex; flex-wrap: wrap; justify-content: center; width: 100%;">
                 <h:form id="symptomCard">
                     <h:panelGroup id="symptomPanel" rendered="#{not empty symptomBean.symptomInfo}">
@@ -90,12 +96,15 @@
                     </h:panelGroup>
                 </h:form>
             </div>
+
+            <!-- Symptoms Registration Sidebars -->
             <div align="center">
                 <p:sidebar widgetVar="symptoms" position="bottom" styleClass="custom-sidebar">
                     <h:form id="symptomForm">
                         <h3 class="sidebar-title">Register Symptoms</h3>
                         <h4 class="sidebar-subtitle">How are you feeling today?</h4>
 
+                        <!-- Reaction Selection Menu -->
                         <h:panelGrid columns="1" styleClass="symptom-grid">
                             <div style="display: flex; align-items: center; justify-content: space-between;">
                                 <p:selectOneMenu id="reaction" value="#{symptomBean.reactionValue}" style="width:200px">
@@ -111,7 +120,7 @@
 
                         <p:selectBooleanCheckbox id="antihistamineCheckbox" value="#{symptomBean.antihistamine}" itemLabel="Took Antihistamine" styleClass="custom-checkbox"/>
 
-                        <p:commandButton id="registerSymptoms" icon="pi pi-save" value="Save Symptoms" action="#{symptomBean.updateAndRegisterSymptoms}" update="message symptomCard:symptomPanel" styleClass="register-button"/>
+                        <p:commandButton id="registerSymptoms" icon="pi pi-save" value="Save Symptoms" action="#{symptomBean.updateAndRegisterSymptoms}" update="message symptomCard:symptomPanel" class="mr-2"/>
                     </h:form>
                 </p:sidebar>
             </div>
@@ -120,4 +129,4 @@
 
 </ui:composition>
 
-        </html>
+</html>
