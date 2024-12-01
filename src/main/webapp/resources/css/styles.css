@@ -31,6 +31,7 @@ body {
     text-decoration: none;
     font-size: 25px;
     color: #fff;
+    font-weight: bold;
     display: block;
 }
 
@@ -57,21 +58,11 @@ body {
 }
 
 .text-shadow-yellow {
-    color: #ffd700;
-    text-shadow: 1px 1px 2px #818181;
+    color: #ffa500;
+    text-shadow: 1px 1px 2px #575656;
     font-size: 30px;
     font-family: 'Arial', sans-serif;
     font-weight: bold;
-}
-
-/* ------------Tab-view-container--Related--Styles-------------------- */
-
-.tab-view-container {
-    background-color: white !important;
-    border-radius: 8px !important;
-    padding: 20px !important;
-    opacity: 0.9 !important;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2) !important;
 }
 
 /* ------------Login--Related--Styles-------------------- */
@@ -133,7 +124,7 @@ body {
 
 .custom-progress-bar {
     height: 30px;
-    border-radius: 25px; /* Rounded corners */
+    border-radius: 25px;
 }
 
 .custom-progress-bar .ui-progressbar-value {
@@ -217,10 +208,10 @@ body {
 .symptom-card {
     display: flex;
     flex-direction: column;
-    justify-content: space-between; /* Ensures content is spaced evenly */
+    justify-content: space-between;
     align-items: center;
     width: 180px;
-    height: 220px;
+    height: auto;
     padding: 10px;
     margin: 15px;
     border: 1px solid #91d2da;
@@ -236,6 +227,7 @@ body {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: normal;
+    word-wrap: break-word;
     height: 3em;
     display: -webkit-box;
     -webkit-line-clamp: 2;
@@ -252,10 +244,11 @@ body {
 /* ------------Custom--Divider--Related--Styles-------------------- */
 
 .custom-divider {
-    border: none;
-    padding: 12px 20px;
+    border: #4ca3af;
+    /*padding: 12px 20px;*/
     margin: 20px 0;
     border-radius: 8px;
+    background-color: #fddfa1;
 }
 
 .custom-divider .inline-flex {
@@ -267,11 +260,13 @@ body {
 .custom-divider i.pi {
     font-size: 35px;
     color: #4ca3af;
+    background-color: #fddfa1 !important;
 }
 
 .custom-divider b {
     font-size: 1.2em;
     color: #4ca3af;
     font-weight: bold;
-    margin-left: 10px;
+    /*margin-left: 10px;*/
+    background-color: #fddfa1 !important;
 }

@@ -133,6 +133,11 @@ public class SymptomBean implements Serializable {
         }
     }
 
+    public void updateAndRegisterSymptoms() {
+        updateReactionName();
+        registerSymptoms();
+    }
+
     public String getSymptomClass() {
         int index = symptomInfo.getReaction();
         if (index == 0) return "none";

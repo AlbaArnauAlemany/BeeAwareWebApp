@@ -61,7 +61,7 @@ public class ExcelBean implements Serializable {
                     .stream(() -> new ByteArrayInputStream(fileContent))
                     .build();
         } catch (IOException e) {
-            e.printStackTrace(); // Handle error appropriately
+            e.printStackTrace();
             throw new RuntimeException("Error preparing file for download", e);
         }
     }
