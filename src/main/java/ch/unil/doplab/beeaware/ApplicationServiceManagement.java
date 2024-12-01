@@ -11,7 +11,6 @@ import jakarta.inject.Inject;
 import jakarta.servlet.http.HttpSession;
 import jakarta.ws.rs.client.Client;
 import jakarta.ws.rs.client.ClientBuilder;
-import jakarta.ws.rs.client.WebTarget;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
