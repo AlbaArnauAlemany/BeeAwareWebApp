@@ -4,10 +4,13 @@ import ch.unil.doplab.beeaware.Domain.DTO.SymptomsDTO;
 import ch.unil.doplab.beeaware.Domain.Symptom;
 import jakarta.ws.rs.client.Entity;
 import jakarta.ws.rs.client.WebTarget;
+import jakarta.ws.rs.core.GenericType;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
+
+import java.util.List;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -42,5 +45,17 @@ public class SymptomService {
         } else {
             throw new RuntimeException("Sorry, we couldn't fetch the symptoms: " + response.getStatusInfo().getReasonPhrase());
         }
+    }
+
+    public List<SymptomsDTO> getSymptomForRangeDate(Long beezzerId, String dateFrom, String dateTo) {
+        WebTarget targetWithParams = symptomTarget
+                .path("{id}/date")
+                .resolveTemplate("id", beezzerId)
+                .path(dateFrom)
+                .path(dateTo);
+
+        return targetWithParams
+                .request(MediaType.APPLICATION_JSON)
+                .get(new GenericType<List<SymptomsDTO>>() {});
     }
 }

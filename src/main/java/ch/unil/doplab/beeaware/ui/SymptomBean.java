@@ -16,6 +16,7 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
+import java.util.List;
 
 @ViewScoped
 @Named("symptomBean")
@@ -32,6 +33,7 @@ public class SymptomBean implements Serializable {
     private boolean antihistamine;
     private String reactionName = "No Reaction";
     private SymptomsDTO symptomInfo;
+    private List<SymptomsDTO> symptomInfoList;
     private Symptom registeredSymptoms;
 
     @PostConstruct

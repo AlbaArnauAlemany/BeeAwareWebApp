@@ -14,85 +14,12 @@
     <ui:define name="section-title">History of Allergic Reactions</ui:define>
 
     <ui:define name="section-content">
-        <h:form id="historyForm">
-            <div style="display: flex; justify-content: space-between; margin-bottom: 20px;">
-                <!-- Filtre des Allergènes -->
-                <div>
-                    <h4>Select Allergens:</h4>
-                    <p:selectManyMenu value="#{historyFilterController.selectedAllergen}" required="true">
-                        <f:selectItems value="#{beezzerData.allergensListString}" var="allergen" itemValue="#{allergen}" itemLabel="#{allergen}" />
-                        <p:ajax listener="#{historyFilterController.onAllergenChange}" update="chartId" />
-                    </p:selectManyMenu>
-                </div>
+        <h:form>
+            <p:growl id="growl" showDetail="true" />
 
-                <!-- Filtre par Date -->
-                <div>
-                    <h4>Filter by Date:</h4>
-                    <p:calendar id="startDate" value="#{historyFilterController.startDate}" placeholder="Start Date">
-                        <p:ajax listener="#{historyFilterController.onDateChange}" update="chartId" />
-                    </p:calendar>
-                    <p:calendar id="endDate" value="#{historyFilterController.endDate}" placeholder="End Date">
-                        <p:ajax listener="#{historyFilterController.onDateChange}" update="chartId" />
-                    </p:calendar>
-                </div>
-            </div>
-
-            <!-- Section de l'affichage de tous les symptômes avant les filtres -->
-            <h4>All Symptoms:</h4>
-            <ui:repeat value="#{historyBean.allSymptoms}" var="symptom">
-                <div class="history-item" style="margin: 10px; border: 1px solid #ccc; padding: 10px;">
-                    <h5>Date: #{symptom.date}</h5>
-                    <p>Reaction Value: #{symptom.reactionValue}</p>
-                    <p>Reaction Name: #{symptom.reactionName}</p>
-                    <p>Antihistamine Taken: #{symptom.antihistamine ? 'Yes' : 'No'}</p>
-                </div>
-            </ui:repeat>
-
-            <!-- Message si aucun symptôme trouvé -->
-            <h:panelGroup rendered="#{empty historyBean.allSymptoms}">
-                <h:outputText value="No symptoms found." styleClass="no-history-message"/>
-            </h:panelGroup>
-
-            <hr /> <!-- Séparateur entre les sections -->
-
-            <!-- Section du Graphique -->
-            <div style="margin-bottom: 20px;">
-                <p:chart type="line" model="#{historyBean.lineChartModel}" style="height: 400px;" />
-            </div>
-
-            <!-- Historique des Symptômes (après filtres) -->
-            <h4>Symptom History:</h4>
-            <ui:repeat value="#{symptomBean.symptomInfo}" var="symptom">
-                <div class="history-item" style="margin: 10px; border: 1px solid #ccc; padding: 10px;">
-                    <h5>Date: #{symptom.date}</h5>
-                    <p>Reaction Value: #{symptom.reactionValue}</p>
-                    <p>Reaction Name: #{symptom.reactionName}</p>
-                    <p>Antihistamine Taken: #{symptom.antihistamine ? 'Yes' : 'No'}</p>
-                </div>
-            </ui:repeat>
-
-            <!-- Message si aucun symptôme trouvé -->
-            <h:panelGroup rendered="#{empty symptomBean.symptomInfo}">
-                <h:outputText value="No symptom history found." styleClass="no-history-message"/>
-            </h:panelGroup>
-
-            <hr /> <!-- Séparateur entre les sections -->
-
-            <!-- Historique des Informations sur le Pollen -->
-            <h4>Pollen Information History:</h4>
-            <ui:repeat value="#{indexPollenForBeezzerBean.pollenInfo}" var="pollen">
-                <div class="pollen-item" style="margin: 10px; border: 1px solid #ccc; padding: 10px;">
-                    <h5>Pollen Type: #{pollen.displayName}</h5>
-                    <p>Index: #{pollen.index}</p>
-                    <p>Class: <span class="#{indexPollenForBeezzerBean.getPollenClass(pollen)}">#{indexPollenForBeezzerBean.getPollenClass(pollen)}</span></p>
-                </div>
-            </ui:repeat>
-
-            <!-- Message si aucune information sur le pollen trouvée -->
-            <h:panelGroup rendered="#{empty indexPollenForBeezzerBean.pollenInfo}">
-                <h:outputText value="No pollen information found for today." styleClass="no-pollen-message"/>
-            </h:panelGroup>
+            <p:lineChart model="#{chartView.lineModel}" />
         </h:form>
+
     </ui:define>
 
 </ui:composition>
