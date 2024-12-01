@@ -21,21 +21,13 @@
             });
         </h:outputScript>
 
-
-        <h:head>
-            <!-- Include the CSS stylesheet with versioning -->
-            <h:outputStylesheet name="css/styles.css">
-                <f:param name="v" value="1.0" />
-            </h:outputStylesheet>
-        </h:head>
-        <h:body>
             <p:remoteCommand
                     name="initMessages"
                     action="#{indexPollenForBeezzerBean.checkAndSetMessage()}"
                     update="message" />
 
             <h:form id ="location">
-            <div style="display: flex; justify-content: flex-end; width: 100%;">
+            <div style="display: flex; justify-content: flex-end; width: 90%;">
                 <p>
                     <i class="pi pi-map-marker" style="color: #818181; margin-right: 10px; font-size: 30px;"/>
                     <strong style ="color: #818181; font-size: 30px">#{beezzerData.cityName}, #{beezzerData.country}</strong>
@@ -62,7 +54,7 @@
                 </h:panelGroup>
             </div>
 
-            <p:divider align="left" class="custom-divider">
+            <p:divider align="left" >
                 <div class="inline-flex align-items-center">
                     <i class="pi pi-sun mr-2"/>
                     <b>Symptoms</b>
@@ -123,7 +115,9 @@
                     </h:form>
                 </p:sidebar>
             </div>
-        </h:body>
-    </ui:define>
+
+</ui:define>
+
 </ui:composition>
-</html>
+
+        </html>

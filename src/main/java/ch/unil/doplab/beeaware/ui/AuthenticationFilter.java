@@ -30,13 +30,14 @@ public class AuthenticationFilter implements Filter {
         boolean registerRequest = requestURI.equals(registerURI);
         boolean indexRequest = requestURI.equals(indexURI);
         boolean summaryRequest = requestURI.equals(summaryURI);
-        boolean resourceRequest = requestURI.contains("javax.faces.resource");
-
+        boolean resourceRequest = requestURI.startsWith(contextPath + "/javax.faces.resource") || requestURI.startsWith(contextPath + "/jakarta.faces.resource");
         boolean hasValidToken = session.getAttribute("bearerToken") != null;
 
         if (hasValidToken || loginRequest || registerRequest || summaryRequest || resourceRequest) {
+            System.out.println(requestURI + " " + " pass!");
             chain.doFilter(request, response);
         } else {
+            System.out.println(requestURI + " " + "!! NOT !! pass!");
             res.sendRedirect(loginURI);
         }
     }

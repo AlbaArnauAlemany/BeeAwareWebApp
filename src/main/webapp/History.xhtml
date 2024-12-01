@@ -16,7 +16,12 @@
     <ui:define name="section-content">
         <h:form>
             <p:growl id="growl" showDetail="true" />
-
+            <div style="display: flex; justify-content: flex-end; width: 90%;">
+                <p:commandButton value="Download" ajax="false" action="#{excelBean.download}"
+                                 icon="pi pi-arrow-down" styleClass="mr-2">
+                    <p:fileDownload value="#{excelBean.file}" />
+                </p:commandButton>
+            </div>
             <p:lineChart model="#{chartView.lineModel}" />
         </h:form>
 

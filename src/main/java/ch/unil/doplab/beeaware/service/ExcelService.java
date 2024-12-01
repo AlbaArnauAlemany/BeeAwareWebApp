@@ -18,7 +18,7 @@ public class ExcelService {
         try {
             Response response = excelTarget
                     .path("download/" + beezzerId)
-                    .request(MediaType.APPLICATION_OCTET_STREAM)
+                    .request("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
                     .get();
 
             if (response.getStatus() == Response.Status.OK.getStatusCode()) {

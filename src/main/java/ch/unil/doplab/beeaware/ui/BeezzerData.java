@@ -130,6 +130,23 @@ public class BeezzerData extends Beezzer {
         this.newCountry = this.country;
     }
 
+    public void reset(){
+        this.id = 0L;
+        this.username = "";
+        this.newUsername = "";
+        this.email = "";
+        this.newEmail = "";
+        this.location = null;
+        this.newLocation = null;
+        this.npa = 0;
+        this.country = "";
+        this.newNpa = 0;
+        this.newCountry = "";
+        this.cityName = "";
+        this.allergensListString = new ArrayList<>();
+        pickListView.setPickListView(this.allergensListString);
+    }
+
     public void saveLocation() {
         System.out.println(newLocation);
         if(theService.getBeezzerService().setBeezzerLocation(id, new LocationDTO(newLocation))) {

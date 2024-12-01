@@ -8,29 +8,43 @@ body {
     background-position: center;
     background-repeat: no-repeat;
     height: 100vh;
-    background-color: #fddfa1;
 }
 
+.ui-button {
+    background-color: #91d2da !important;  /* Couleur de fond par défaut */
+    color: white !important; /* Couleur du texte par défaut */
+    border: none !important; /* Supprime les bordures */
+    border-radius: 5px !important; /* Coins arrondis */
+    box-shadow: 0px -2px 10px rgba(0, 0, 0, 0.1) !important;
+    transition: background-color 0.3s ease, transform 0.3s ease  !important; /* Animation fluide */
+}
+
+.ui-button:hover {
+    background-color: #68a6ae !important;
+    transform: scale(1.01) !important; /* Légère augmentation de la taille */
+    cursor: pointer !important; /* Changement du curseur */
+}
 .sidenav {
     height: 100%;
-    width: 160px;
+    width: 220px;
     position: fixed;
     z-index: 1;
     top: 0;
     left: 0;
-    background-color: #ffd700;
+    background-color: #ffffc5;
     overflow-x: hidden;
     padding-top: 20px;
-    color: white;
+    color: dimgrey;
     display: flex;
     flex-direction: column;
 }
 
 .sidenav a {
-    padding: 6px 8px 6px 16px;
+    padding: 10px 8px 6px 16px;
     text-decoration: none;
-    font-size: 25px;
-    color: #fff;
+    font-size: 22px;
+    margin-left: 30px;
+    color: dimgrey;
     font-weight: bold;
     display: block;
 }
@@ -40,7 +54,7 @@ body {
 }
 
 .main {
-    margin-left: 160px;
+    margin-left: 220px;
     font-size: 28px;
     padding: 0px 10px;
     height: 100vh; /* Ensure the main content takes full height */

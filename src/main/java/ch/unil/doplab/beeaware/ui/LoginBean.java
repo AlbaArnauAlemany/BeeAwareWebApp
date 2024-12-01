@@ -11,7 +11,6 @@ import jakarta.faces.context.FacesContext;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 import jakarta.servlet.http.HttpSession;
-import org.primefaces.PrimeFaces;
 
 import java.io.Serializable;
 
@@ -34,6 +33,7 @@ public class LoginBean implements Serializable {
             throw new IllegalStateException("ApplicationServiceManagement is not injected!");
         }
         reset();
+        beezzerData.reset();
     }
 
 
