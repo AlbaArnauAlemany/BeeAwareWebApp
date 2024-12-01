@@ -13,19 +13,14 @@ import jakarta.inject.Named;
 import org.primefaces.model.charts.ChartData;
 import org.primefaces.model.charts.axes.cartesian.CartesianScales;
 import org.primefaces.model.charts.axes.cartesian.linear.CartesianLinearAxes;
-import org.primefaces.model.charts.axes.cartesian.linear.CartesianLinearTicks;
 import org.primefaces.model.charts.line.LineChartDataSet;
 import org.primefaces.model.charts.line.LineChartModel;
 import org.primefaces.model.charts.line.LineChartOptions;
 import org.primefaces.model.charts.optionconfig.title.Title;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
 import java.util.*;
 
 @Named("chartView")
@@ -59,14 +54,17 @@ public class ChartView {
 
 
         List<List<Object>> values = new ArrayList<>();
+        List<Boolean> histamine = new ArrayList<>();
         values.add(new ArrayList<>());
         List<String> labels = new ArrayList<>();
         for (int i = 0; i < symptomsDTOList.size(); ++i){
             SymptomsDTO currentSymptomsDTO = symptomsDTOList.get(i);
             System.out.println(currentSymptomsDTO);
 
+//            labels.add(parseDate(currentSymptomsDTO.getDate()) + (currentSymptomsDTO.isAntihistamine() ? " 💊" : ""));
             labels.add(parseDate(currentSymptomsDTO.getDate()));
             values.get(0).add(currentSymptomsDTO.getReaction());
+            histamine.add(currentSymptomsDTO.isAntihistamine());
         }
 
         lineModel = new LineChartModel();
@@ -108,6 +106,10 @@ public class ChartView {
             dataSet.get(count).setFill(true);
             dataSet.get(count).setTension(0.5);
             count++;
+        }
+
+        for (int i = 0; i < histamine.size(); ++i) {
+            labels.set(i, labels.get(i) + (histamine.get(i)  ? " 💊" : ""));
         }
 
 
