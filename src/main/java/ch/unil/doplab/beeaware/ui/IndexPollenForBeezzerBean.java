@@ -60,9 +60,7 @@ public class IndexPollenForBeezzerBean implements Serializable {
         // Check if method correctly called and give debug details
         if (pollenInfo != null) {
             pollenInfo.forEach(pollen -> System.out.println(pollen.getDisplayName() + " - " + pollen.getIndex()));
-        } else {
-            System.out.println("PollenInfo is null");
-        }
+        } else { System.out.println("PollenInfo is null"); }
         System.out.println("PollenInfo size: " + (pollenInfo != null ? pollenInfo.size() : "null"));
         System.out.println("PostConstruct called for IndexPollenForBeezzerBean");
 
