@@ -208,10 +208,10 @@ public class BeezzerData extends Beezzer {
 
     public String saveBeezzer() {
         try {
-            Map<Long, Pollen> pollens = new HashMap<>();
+            List<Pollen> pollens = new ArrayList<>();
             for (String allergen: pollen) {
                 Pollen pol = getPollenByName(allergen);
-                pollens.put(pol.getId(), pol);
+                pollens.add(pol);
             }
 
             Beezzer beezzer = new Beezzer(0L, username, email, password, new Location(npa, country), Role.BEEZZER);

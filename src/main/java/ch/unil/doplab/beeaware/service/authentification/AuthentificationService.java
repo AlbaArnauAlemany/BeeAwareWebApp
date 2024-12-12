@@ -25,6 +25,7 @@ public class AuthentificationService {
 
     public boolean logout(Long id) {
         try {
+            System.out.println("Logout function");
             WebTarget targetWithPathParam = serviceTarget.path(String.valueOf(id));
 
             System.out.println("Logout URL: " + targetWithPathParam.getUri());
